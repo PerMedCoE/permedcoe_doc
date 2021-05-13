@@ -19,11 +19,11 @@ definition and functions to be used in the Building Block implementation.
 
     .. code-block:: python
 
-        from permedcoe import Container
-        from permedcoe import Constraint
-        from permedcoe import Binary
-        from permedcoe import Mpi
-        from permedcoe import Task
+        from permedcoe import container
+        from permedcoe import constraint
+        from permedcoe import binary
+        from permedcoe import mpi
+        from permedcoe import task
 
 - Parameter type definition:
 
