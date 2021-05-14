@@ -93,7 +93,7 @@ numfig_format = {'figure':'Figure %s',
                  'table':'Table %s',
                  'code-block':'Code %s',
                  'section':'Section %s'}
-html_logo = "../_static/logo.jpg"
+html_logo = "../_static/logo_1.png"
 html_show_sourcelink = False
 
 
