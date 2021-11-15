@@ -44,7 +44,7 @@ Building Block (BB) execution, as well as being able to create empty templates f
 
    02_installation/installation
    03_components/components
-   04_development/development
+   04_usage/usage
    05_samples/samples
    07_acks/acknowledgements
 
