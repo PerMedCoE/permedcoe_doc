@@ -43,7 +43,7 @@ definition and functions to be used in the Building Block implementation.
         from permedcoe import get_environment
 
 The usage of these decorators, type definitions and functions is described in
-:ref:`04_development/development:Development` Section.
+:ref:`03_usage/usage:Usage` Section.
 
 Command line
 ------------
