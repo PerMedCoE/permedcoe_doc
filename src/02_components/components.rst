@@ -1,5 +1,5 @@
-Components
-==========
+:fa:`cogs` Components
+=====================
 
 The ``permedcoe`` package provides a Python API necessary for the development
 of **Building Blocks (BBs)** in the **HPC/Exascale Centre of Excellence in
@@ -43,7 +43,8 @@ definition and functions to be used in the Building Block implementation.
         from permedcoe import get_environment
 
 The usage of these decorators, type definitions and functions is described in
-:ref:`03_usage/usage:Usage` Section.
+:ref:`03_usage/01_building_block/building_block:Building block structure`
+Section.
 
 Command line
 ------------

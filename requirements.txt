@@ -4,3 +4,4 @@ myst-parser
 sphinxcontrib-contentui
 sphinx-copybutton
 sphinxcontrib-spelling
+sphinx-panels

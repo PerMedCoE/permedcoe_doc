@@ -1,5 +1,5 @@
-Acknowledgements
-================
+:fa:`handshake-o` Acknowledgements
+====================================
 
 Partners
 --------

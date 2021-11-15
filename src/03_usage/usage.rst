@@ -1,5 +1,5 @@
-Usage
-=====
+:fa:`magic` Usage
+=================
 
 This section shows how to develop Building Blocks using the **permedcoe** package,
 and how to use them into an application.

@@ -1,5 +1,5 @@
-Installation
-============
+:fa:`save` Installation
+=======================
 
 This section shows how to install the PerMedCoE base package, but first,
 describes the required dependencies.
