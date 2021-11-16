@@ -1,42 +1,48 @@
-The template application (``my_application``) is ready to be used with
-multiple workflow managers:
-
+The Building Block is ready to be used from multiple workflow managers:
 
 .. dropdown:: PyCOMPSs
     :container: + shadow
     :title: bg-primary text-white font-weight-bold
     :animate: fade-in
 
-    .. CAUTION::
+    Now its time to add logic to the application template.
+    To this end, you can use your desired text editor or Python IDE.
 
-        It is necessary to have installed the PyCOMPSs in order to test
-        the application.
-
-        Please, check the `PyCOMPSs installation manual <https://pycompss.readthedocs.io/en/stable/Sections/00_Quickstart.html#install-compss>`_
-
-    There is a ready to use script (``launch.sh``) in order to execute the
-    application:
+    There is only one file that requires attention (**app.py**):
 
     .. code-block:: CONSOLE
 
-        ./launch.sh
+        cd my_application/PyCOMPSs/
 
-    .. CAUTION::
+        # Edit: app.py
 
-        If your application requires parameters, the ``launch.sh`` script needs
-        to be tuned accordingly.
+    In this file, it is necessary to develop the following:
 
-    .. TIP::
+    Imports *[MANDATORY]*
+        It is necessary to import the building block (in the template
+        ``my_building_block``) methods:
 
-        If any error occurs, it is necessary to debug the execution. To this
-        end it is helpful to check the `Troubleshooting for Python section <https://pycompss.readthedocs.io/en/stable/Sections/04_Troubleshooting/01_Debugging_examples/02_Python.html>`_
-        from the PyCOMPSs documentation.
+        .. code-block:: PYTHON
 
-    .. TIP::
+            # Import building block entry points
+            from my_building_block import invoke
+            from my_building_block import my_building_block_task
 
-        It is possible to run the application without PyCOMPSs installed
-        using the ``launch_without_pycompss.sh`` script. However, the execution
-        of the application will be performed entirely sequentially.
+        .. TIP::
+
+            You can import any other method from the Building Block.
+
+    ``main`` method *[MANDATORY]*
+        It is required to implement the logic of the application that
+        uses the building blocks methods.
+
+        It can use directly ``invoke`` to mimic the command line interface.
+        But you can use any other method from the Building Blocks and invoke
+        them directly.
+
+        .. TIP::
+
+            The ``my_application`` already uses ``my_building_block``.
 
 
 .. dropdown:: Snakemake

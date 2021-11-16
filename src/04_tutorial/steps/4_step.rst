@@ -1,32 +1,49 @@
-The first step to create an application is to generate a template to start
-with. The template can be created with the following ``permedcoe`` command:
+In order to test the Building Block it is necessary to install it.
+To this end, the Building Block already includes a ``install.sh`` script:
 
-.. code-block:: console
+.. code-block:: CONSOLE
 
-    permedcoe template application my_application
-
-The result of this command is a folder named ``my_application`` containing
-a three folders: NextFlow, PyCOMPSs and Snakemake. Each subfolder contains
-a template for that workflow manager with all scripts and base code to start
-developing your application.
-
-.. IMPORTANT::
-
-    The application name in this example is ``my_application``, but
-    should be defined for your application with a specific name.
-
-    This tutorial will continue using ``my_application`, so take it into
-    account if you define a different name and swap ``my_application`` with
-    yours.
-
+    my_building_block/./install.sh
 
 .. TIP::
 
-    It is possible to create the template for a single workflow manager by
-    specifying it in the template creation:
+    The ``install.sh`` script generates a file named ``installed_files.txt``
+    that keeps a record of the files in your system after installing it.
 
-    .. code-block:: console
 
-        permedcoe template application -t <WORKFLOW_MANAGER> my_application
+Once installed the ``my_building_block`` package, it provides the
+``my_building_block`` command, that can be used from the command line.
+For example:
 
-    Where ``<WORKFLOW_MANAGER>`` can be: *pycompss*, *nextflow* or *snakemake*.
+.. code-block:: CONSOLE
+
+  $ my_building_block -h
+  usage: my_building_block [-h] [-i INPUT [INPUT ...]] [-o OUTPUT [OUTPUT ...]] [-c CONFIG] [-d]
+                  [-l {debug,info,warning,error,critical}] [--tmpdir TMPDIR] [--processes PROCESSES]
+                  [--gpus GPUS] [--memory MEMORY] [--mount_points MOUNT_POINTS]
+
+  optional arguments:
+      -h, --help            show this help message and exit
+      -i INPUT [INPUT ...], --input INPUT [INPUT ...]
+                          Input file/s or directory path/s
+      -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
+                          Output file/s or directory path/s
+      -c CONFIG, --config CONFIG
+                          Configuration file path
+      -d, --debug           Enable Building Block debug mode. Overrides log_level
+      -l {debug,info,warning,error,critical}, --log_level {debug,info,warning,error,critical}
+                          Set logging level
+      --tmpdir TMPDIR       Temp directory to be mounted in the container
+      --processes PROCESSES
+                          Number of processes for MPI executions
+      --gpus GPUS           Requirements for GPU jobs
+      --memory MEMORY       Memory requirement
+      --mount_points MOUNT_POINTS
+                          Comma separated alias:folder to be mounted in the container
+
+
+And to test the Building Block, provide the necessary parameters:
+
+.. code-block:: CONSOLE
+
+    my_building_block -i /path/to/input.file -o /path/to/output.file -c /path/to/config.file

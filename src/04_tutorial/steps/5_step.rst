@@ -1,60 +1,32 @@
-The Building Block is ready to be used from multiple workflow managers:
+The first step to create an application is to generate a template to start
+with. The template can be created with the following ``permedcoe`` command:
 
-.. dropdown:: PyCOMPSs
-    :container: + shadow
-    :title: bg-primary text-white font-weight-bold
-    :animate: fade-in
+.. code-block:: console
 
-    Now its time to add logic to the application template.
-    To this end, you can use your desired text editor or Python IDE.
+    permedcoe template application my_application
 
-    There is only one file that requires attention (**app.py**):
+The result of this command is a folder named ``my_application`` containing
+a three folders: NextFlow, PyCOMPSs and Snakemake. Each subfolder contains
+a template for that workflow manager with all scripts and base code to start
+developing your application.
 
-    .. code-block:: CONSOLE
+.. IMPORTANT::
 
-        cd my_application/PyCOMPSs/
+    The application name in this example is ``my_application``, but
+    should be defined for your application with a specific name.
 
-        # Edit: app.py
-
-    In this file, it is necessary to develop the following:
-
-    Imports *[MANDATORY]*
-        It is necessary to import the building block (in the template
-        ``my_building_block``) methods:
-
-        .. code-block:: PYTHON
-
-            # Import building block entry points
-            from my_building_block import invoke
-            from my_building_block import my_building_block_task
-
-        .. TIP::
-
-            You can import any other method from the Building Block.
-
-    ``main`` method *[MANDATORY]*
-        It is required to implement the logic of the application that
-        uses the building blocks methods.
-
-        It can use directly ``invoke`` to mimic the command line interface.
-        But you can use any other method from the Building Blocks and invoke
-        them directly.
-
-        .. TIP::
-
-            The ``my_application`` already uses ``my_building_block``.
+    This tutorial will continue using ``my_application`, so take it into
+    account if you define a different name and swap ``my_application`` with
+    yours.
 
 
-.. dropdown:: Snakemake
-    :container: + shadow
-    :title: bg-primary text-white font-weight-bold
-    :animate: fade-in
+.. TIP::
 
-    To be completed...
+    It is possible to create the template for a single workflow manager by
+    specifying it in the template creation:
 
-.. dropdown:: NextFlow
-    :container: + shadow
-    :title: bg-primary text-white font-weight-bold
-    :animate: fade-in
+    .. code-block:: console
 
-    To be completed...
+        permedcoe template application -t <WORKFLOW_MANAGER> my_application
+
+    Where ``<WORKFLOW_MANAGER>`` can be: *pycompss*, *nextflow* or *snakemake*.
