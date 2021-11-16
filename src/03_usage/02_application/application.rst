@@ -1,8 +1,8 @@
 Application
 ===========
 
-First step
-----------
+Application template creation
+-----------------------------
 
 The first suggested step is to start with a template created with the
 ``permedcoe`` command:
@@ -95,6 +95,21 @@ And the mainly expected content of the application is the usage of building bloc
 
   Due to the Python nature of PyCOMPSs applications, it can also support python code and objects
   among building blocks, enabling the implementation of complex workflows with inner parallelism.
+
+
+Execution
+---------
+
+The execution of the application depends on the workflow manager choosen. Consequently,
+the execution will be performed following the worklflow manager instructions.
+
+For example, the execution with PyCOMPSs locally is be performed with the ``runcompss``
+command (see
+`runcompss documentation <https://pycompss.readthedocs.io/en/stable/Sections/03_Execution_Environments/01_Master_worker/01_Local/01_Executing.html#runcompss-command>`_ for
+more details), whilst for supercomputers is performed with the ``enqueue_compss`` command (see
+`enqueue_compss documentation <https://pycompss.readthedocs.io/en/stable/Sections/03_Execution_Environments/01_Master_worker/02_Supercomputers/01_Executing.html#compss-job-submission>`_ for
+more details).
+
 
 Best practices
 --------------

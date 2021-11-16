@@ -1,5 +1,5 @@
-Samples
-=======
+:fa:`support` Samples
+=====================
 
 Basic application
 -----------------

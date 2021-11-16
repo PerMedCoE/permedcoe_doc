@@ -42,11 +42,12 @@ Building Block (BB) execution, as well as being able to create empty templates f
    :maxdepth: 4
    :caption: Contents:
 
-   02_installation/installation
-   03_components/components
-   04_development/development
+   01_installation/installation
+   02_components/components
+   03_usage/usage
+   04_tutorial/tutorial
    05_samples/samples
-   07_acks/acknowledgements
+   06_acks/acknowledgements
 
 
 

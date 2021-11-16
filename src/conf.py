@@ -44,6 +44,7 @@ extensions = ["sphinx_rtd_theme",
               'sphinxcontrib.contentui',
               'sphinx_copybutton',
               'sphinxcontrib.spelling',
+              'sphinx_panels'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -103,3 +104,6 @@ autosectionlabel_prefix_document = True
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'default' # 'sphinx'
+
+html_css_files = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"]
+panels_add_fontawesome_latex = True

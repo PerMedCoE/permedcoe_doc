@@ -1,8 +1,8 @@
 Building Block
 ==============
 
-First step
-----------
+Building Block template creation
+--------------------------------
 
 The first suggested step is to start with a template created with the
 ``permedcoe`` command:

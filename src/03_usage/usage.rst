@@ -1,5 +1,5 @@
-Development
-===========
+:fa:`magic` Usage
+=================
 
 This section shows how to develop Building Blocks using the **permedcoe** package,
 and how to use them into an application.
@@ -20,4 +20,3 @@ such as PyCOMPSs, Nextflow or Snakemake.
 
    01_building_block/building_block
    02_application/application
-
