@@ -3,7 +3,18 @@ with. The template can be created with the following ``permedcoe`` command:
 
 .. code-block:: console
 
-    permedcoe template application my_application
+    $ permedcoe template application my_application
+
+    Creating Application template
+    ------------------------------------------
+    To be completed:
+
+    - app.py:(6):	TODO: Import the desired building blocks entry points and use invoke or any other function.
+    - Snakefile:(0):	TODO: Declare the building blocks to be used as rules.
+    - Snakefile:(9):	TODO: Change bb to the building block name.
+    - NextFlow.nf:(7):	TODO: Declare the building blocks to be used as process.
+    - NextFlow.nf:(18):	TODO: Change bb to the building block name.
+    ------------------------------------------
 
 The result of this command is a folder named ``my_application`` containing
 a three folders: NextFlow, PyCOMPSs and Snakemake. Each subfolder contains
@@ -27,6 +38,6 @@ developing your application.
 
     .. code-block:: console
 
-        permedcoe template application -t <WORKFLOW_MANAGER> my_application
+        $ permedcoe template application -t <WORKFLOW_MANAGER> my_application
 
     Where ``<WORKFLOW_MANAGER>`` can be: *pycompss*, *nextflow* or *snakemake*.

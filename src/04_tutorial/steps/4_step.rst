@@ -3,7 +3,7 @@ To this end, the Building Block already includes a ``install.sh`` script:
 
 .. code-block:: CONSOLE
 
-    my_building_block/./install.sh
+    $ my_building_block/./install.sh
 
 .. TIP::
 
@@ -18,6 +18,7 @@ For example:
 .. code-block:: CONSOLE
 
   $ my_building_block -h
+
   usage: my_building_block [-h] [-i INPUT [INPUT ...]] [-o OUTPUT [OUTPUT ...]] [-c CONFIG] [-d]
                   [-l {debug,info,warning,error,critical}] [--tmpdir TMPDIR] [--processes PROCESSES]
                   [--gpus GPUS] [--memory MEMORY] [--mount_points MOUNT_POINTS]
@@ -46,4 +47,9 @@ And to test the Building Block, provide the necessary parameters:
 
 .. code-block:: CONSOLE
 
-    my_building_block -i /path/to/input.file -o /path/to/output.file -c /path/to/config.file
+    # Generate a testing files
+    $ echo "hello world" > hi.txt
+    $ my_building_block -i hi.txt -o bye.txt
+
+The result will be the appearance of the ``bye.txt`` file, which is a copy of
+``hi.txt``.

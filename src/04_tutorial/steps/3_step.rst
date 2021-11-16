@@ -5,7 +5,7 @@ There is only one file that requires attention (**main.py**):
 
 .. code-block:: CONSOLE
 
-    cd my_building_block/src/my_building_block
+    $ cd my_building_block/src/my_building_block
 
     # Edit: main.py
 
@@ -55,19 +55,20 @@ The next Subsections describe each method development:
         SAMPLE_CONTAINER = "/path/to/image.sif"
 
         @container(engine="SINGULARITY", image=SAMPLE_CONTAINER)
-        @binary(binary="/path/to/my_binary")
-        @task(dataset=FILE_IN, output=FILE_OUT)
-        def building_block_task(dataset_flag="-d", dataset=None,
-                                output_flag="-o", output=None,
-                                operation="-x"):
-        # Empty function since it represents a binary execution:
-        pass
+        @binary(binary="cp")
+        @task(input_file=FILE_IN, output_file=FILE_OUT)
+        def building_block_task(input_file=None,
+                                output_file=None,
+                                verbose="-v"):
+            # Empty function since it represents a binary execution:
+            pass
+
 
     The ``building_block_task`` is a method that is equivalent to:
 
     .. code-block:: CONSOLE
 
-        /path/to/my_binary -d dataset -o output -x
+        cp <input_file> <output_file> -v
 
     Where the decorators define:
 
@@ -75,33 +76,34 @@ The next Subsections describe each method development:
         The container that will be used to execute the Building Block.
 
         **It must be updated with the container path for your Building Block.**
-    ``@binary(binary="/path/to/my_binary")``
+    ``@binary(binary="cp")``
         The binary to be executed by the Building Block.
 
         **It must be updated with the binary path for your Building Block.**
-    ``@task(dataset=FILE_IN, output=FILE_OUT)``
-        The parameters type and direction. In this example, there are two parameters
-        that are files, one used as input (``dataset``) and another produced by
-        the binary execution (``output``).
+    ``@task(input_file=FILE_IN, output_file=FILE_OUT)``
+        The parameters type and direction. In this example, there are two
+        parameters that are files, one used as input (``input_file``) and
+        another produced by the binary execution (``output_file``).
 
-        **It must be updated with the ary path for your Building Block.**
+        **It must be updated with the function's parameters type (if files or
+        directories) and/or direction.**
 
     And the function is defined:
 
     .. code-block:: Python
 
-        def building_block_task(dataset_flag="-d", dataset=None,
-                                output_flag="-o", output=None,
-                                operation="-x"):
+        def building_block_task(input_file=None,
+                                output_file=None,
+                                verbose="-v"):
 
     Each parameter is interpreted in order, and all of them should include the
-    default value to ease the invocation (e.g. ``None`` is useful for ``FILES`` and
-    ``DIRECTORIES``, whilst for the rest integers or strings can be enough).
+    default value to ease the invocation (e.g. ``None`` is useful for ``FILES``
+    and ``DIRECTORIES``, whilst for the rest integers or strings is enough).
 
     The two required actions in the function definition are:
 
     - **Define a representative function name** (e.g. ``building_block_task`` in the example)
-    - **Define the function parameters parameters**
+    - **Define the function parameters**
 
     .. IMPORTANT::
 
@@ -142,14 +144,17 @@ The next Subsections describe each method development:
     .. code-block:: Python
 
         def invoke(input, output, config):
-            operation = config["operation"]
-            building_block_task(dataset=input,
-                                output=output,
-                                operation=operation)
+            # operation = config["operation"]
+            input_file = input[0]
+            output_file = output[0]
+            building_block_task(input_file=input_file,
+                                output_file=output_file)
 
-    This example gets the ``operation`` field from config, and then
-    invokes the ``building_block_task`` method specifying the necessary parameters
-    explicitly (``dataset``, ``output`` and ``operation``).
+
+    This example shows how to get get the ``operation`` field from config,
+    gets the input and output files and invokes the ``building_block_task``
+    method specifying the necessary parameters explicitly (``input_file``
+    and ``output_file``).
 
 .. dropdown:: "function_name" method development
     :container: + shadow

@@ -1,4 +1,5 @@
-The Building Block is ready to be used from multiple workflow managers:
+The Building Block is ready to be used from multiple workflow managers,
+and we already have a template for each workflow manager:
 
 .. dropdown:: PyCOMPSs
     :container: + shadow
@@ -12,7 +13,7 @@ The Building Block is ready to be used from multiple workflow managers:
 
     .. code-block:: CONSOLE
 
-        cd my_application/PyCOMPSs/
+        $ cd my_application/PyCOMPSs/
 
         # Edit: app.py
 
@@ -43,6 +44,26 @@ The Building Block is ready to be used from multiple workflow managers:
         .. TIP::
 
             The ``my_application`` already uses ``my_building_block``.
+
+            .. code-block:: PYTHON
+
+                def main():
+                    # Sample application:
+                    print("Sample python application using my_building_block BB")
+                    # Get parameters
+                    input_file = str(sys.argv[1])
+                    output_file = str(sys.argv[2])
+                    conf = {}  # conf is empty since it is not used by my_building_block
+                    # Building Block invocation
+                    building_block_task(input_file=input_file,
+                                        output_file=output_file)
+                    # Alternative Building Block invocation (uning invoke method)
+                    # invoke(input_file,
+                    #        output_file)
+
+            *NOTE:* That the parameters match the ``building_block_task``
+            function definition (and the alternative using ``invoke`` as well).
+
 
 
 .. dropdown:: Snakemake
