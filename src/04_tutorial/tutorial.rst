@@ -17,7 +17,7 @@ To this end, you can use **pip**:
 .. TIP::
 
     Alternatively, it is possible to be
-    `installed from source <01_installation/installation: Installation from source code>`_
+    `installed from source <../01_installation/installation.html#installation-from-source-code>`_
 
 And it is also **required** to install singularity.
 Please, check the `Singularity installation documentation <https://sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps>`_.
