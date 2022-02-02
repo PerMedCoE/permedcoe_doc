@@ -82,8 +82,152 @@ These workflows are named **blueprints** in Cloudify terminology.
 They may also specify data objects, their role as tasks'
 inputs and/or outputs and the transfer entities that move such data from
 one source to a target.
-Workflows are specify by using the **OASIS TOSCA** specification (https://docs.cloudify.co/latest/developer/blueprints/).
+Croupier's workflows are specified in YAML by using the **OASIS TOSCA** language (https://docs.cloudify.co/latest/developer/blueprints/).
+For the following, we use the Covid19 application as an example.
 
+The application workflow starts with a header that declares at least imports
+read the Croupier workflow model. Other imports could be possible if required
+by the application.
+
+  .. code-block:: yaml
+
+    tosca_definitions_version: cloudify_dsl_1_3
+    imports:
+        - http://raw.githubusercontent.com/ari-apc-lab/croupier/master/resources/types/cfy_types.yaml
+        - plugin:croupier
+
+Next, application data types can be optionally declared. In the following
+example, the Covid19 application input arguments are declared
+
+  .. code-block:: yaml
+
+    data_types:
+    permedcoe.covid19.args:
+        properties:
+            metadata:
+                type: string
+                required: true
+            model_prefix:
+                type: string
+                required: true
+            outdir:
+                type: string
+                required: true
+            ko_file:
+                type: string
+                required: true
+            reps:
+                type: integer
+                required: true
+            model:
+                type: string
+                required: true
+            data_folder:
+                type: string
+                required: true
+
+Then, the application inputs should be declared.
+There is a number of common inputs for a common application:
+
+- VAULT arguments required to obtain HPC access credentials, namely ``vault_token`` and ``user``.
+- HPC properties, such as the frontend ``hpc_host`` and the ``hpc_scheduler``
+- PYCOMPSs arguments, such as the ``num_nodes`` and the ``exec_time``
+- Application specific args. In below example, the Covid19 input arguments
+
+The number and type of arguments are variable and they are decided by the
+application provider. For instance, several Vault services can be defined,
+sharing the same vault_user, but requiring different tokens. Similarly,
+several HPC infrastructures can be used to distribute workflow tasks,
+and requiring dedicated inputs for each infrastructure, hence. The number
+and kind of PYCOMPSs arguments can be different across applications.
+
+**Note:** This workflow COVID19 example uses PYCOMPSs as target HPC workflow
+and scheduler.
+
+  .. code-block:: yaml
+
+    inputs:
+        ########################## VAULT ######################
+        vault_token:
+            type: string
+        vault_user:
+            type: string
+
+        ################# HPC Infrastructures #################
+        hpc_host:
+            type: string
+
+        hpc_scheduler:
+            type: string
+
+        ################# Covid 19 application ################
+        covid19_args:
+            type: permedcoe.covid19.args
+
+        ##################### PYCOMPSs args ###################
+        num_nodes:
+            type: integer
+        exec_time:
+            type: integer
+
+Next, one or more Vault nodes must be declared. Vault nodes are used
+as secret stores where to retrieve from the credentials required to access
+the target HPC infrastructures, through ssh, to schedule workflow' tasks
+(as jobs). The following block declares one Vault node of type ``croupier.nodes.Vault``.
+Note that Vault properties (``token`` and ``user``) are taken from inputs
+by using the ``get_input`` function:
+
+  .. code-block:: yaml
+
+    node_templates:
+    vault:
+        type: croupier.nodes.Vault
+        properties:
+            token: { get_input: vault_token }
+            user: { get_input: vault_user }
+
+Then, one of more HPC infrastructures (where to execute the workflow's tasks)
+are declared as node instances of the type ``croupier.nodes.InfrastructureInterface``
+The mandatory properties of this type must be overridden by this node definition.
+Other optional properties as well. In particular:
+
+- ``config/infrastructure_interface`` must be given with the name of the target HPC scheduler used to launch job tasks.
+- ``credentials/host`` must also be given with the host name of the HPC frontend.
+
+In this example, HPC configuration is read from declared inputs, as the
+application's consumer will be prompted to provide those values. This is a common
+approach when the consumer selects a target HPC infrastructure where to execute
+the application. Alternatively, a fixed target HPC infrastructure can be
+specified in the workflow.
+
+- ``job_prefix`` declare a prefix for naming the submitted jobs.
+- ``base_dir`` declares the path where Croupier folder for workflow execution will be created.
+- ``monitoring_options/monitor_period`` declares the period of Croupier's requests to the HPC frontend to check the task job execution/queue status.
+- ``workdir_prefix`` declares the name of the folder create for every task job executed. This folder will contain the deployed application, its execution logs and
+
+Finally, the HPC infrastructure node is associated to the Vault node, by using
+a relationship of type ``retrieve_credentials_from_vault`` that states that
+the HPC ``credentials`` will be retrieved from that node,
+declared in the ``target``
+
+  .. code-block:: yaml
+
+    hpc:
+        type: croupier.nodes.InfrastructureInterface
+        properties:
+            config:
+                infrastructure_interface: { get_input: hpc_scheduler }
+            credentials:
+                host: { get_input: hpc_host }
+            job_prefix: croupier
+            base_dir: $HOME
+            monitoring_options:
+                monitor_period: 15
+            skip_cleanup: true
+            workdir_prefix: "pycompss-test"
+        relationships:
+            - type: retrieve_credentials_from_vault
+              target: vault
 
 Application installation
 ------------------------
