@@ -12,7 +12,9 @@ This structure enables developers to build applications quickly and easily by ch
 the required Building Blocks and connecting them.
 
 The **permedcoe** package enables to use them in a variety of workflow managers,
-such as PyCOMPSs, Nextflow or Snakemake.
+such as PyCOMPSs, Nextflow or Snakemake. It also supports the meta-workflow orchestrator Croupier,
+which supports end-users to consume applications whose tasks are executed across multiple
+HPC infrastructures
 
 .. toctree::
    :maxdepth: 2
@@ -20,3 +22,4 @@ such as PyCOMPSs, Nextflow or Snakemake.
 
    01_building_block/building_block
    02_application/application
+   03_croupier/croupier
