@@ -24,8 +24,8 @@ updated, replacing the Cloudify frontend.
 Prerequisites
 -------------
 The Croupier administrator should take care of installing all required
-dependencies and the Croupier plugin. Atos will provide Croupier accessible
-through its frontend at http://frontend.croupier.permedcoe.eu (not yet available, stay tune!)
+dependencies and the Croupier plugin. Atos will make Croupier accessible
+through its frontend at http://frontend.croupier.permedcoe.eu (not yet available).
 
 Cloudify installation
 ~~~~~~~~~~~~~~~~~~~~~
@@ -36,8 +36,8 @@ The following instructions have been tested in **version 6.2.0**
 Croupier installation
 ~~~~~~~~~~~~~~~~~~~~~
 To install Croupier plugin, you need a Croupier Wagon file, compiled for CentOS.
-Contact Croupier administrator (jesus.gorronogoitia@atos.net) for latest
-Croupier's wheel and the ``plugin.yaml`` descriptor. Next, log into Cloudify with **admin** account.
+Contact Croupier administrator (jesus.gorronogoitia@atos.net) for the latest
+Croupier wheel and the ``plugin.yaml`` descriptor. Next, log into Cloudify with **admin** account.
 Click on the **resources** tab in the leftmost panel. Click on the **Resources**
 tab in the main page. Then, click on the **upload** button in the right of the
 **Plugin list** table. Select **upload a package**
@@ -141,8 +141,7 @@ several HPC infrastructures can be used to distribute workflow tasks,
 and requiring dedicated inputs for each infrastructure, hence. The number
 and kind of PYCOMPSs arguments can be different across applications.
 
-**Note:** This workflow COVID19 example uses PYCOMPSs as target HPC workflow
-and scheduler.
+**Note:** This COVID-19 workflow example uses PYCOMPSs as the workflow scheduler.
 
   .. code-block:: yaml
 
