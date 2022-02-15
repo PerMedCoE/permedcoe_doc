@@ -1,5 +1,5 @@
-Building Block
-==============
+Building Block Templates
+========================
 
 Building Block template creation
 --------------------------------
@@ -95,7 +95,7 @@ The package contains the following scripts:
 +------------------------------------+--------------------------------------------+
 
 
-Building block structure
+Building Block structure
 ------------------------
 
 There are a set of rules to implement a PerMedCoE compliant Building Block:

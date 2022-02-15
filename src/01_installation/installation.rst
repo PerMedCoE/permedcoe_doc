@@ -1,20 +1,28 @@
-:fa:`save` Installation
-=======================
+:fa:`save` Base Package Installation
+====================================
 
-This section shows how to install the PerMedCoE base package, but first,
-describes the required dependencies.
+Introduction
+------------
+
+`PerMedCoE <https://permedcoe.eu/>`_ project developments are based on containers enabling reproducible operations
+in heterogeneous HPC infrastructures, and their inclusion into **building blocks (BBs)** and **workflows**.
+
+The ``permedcoe`` package provides a command line tool that eases BB execution. It also provides a Python API necessary
+for the development of BBs and enables the creation of empty BB templates.
+
+This section shows how to install the PerMedCoE base package. A list of package dependencies is also provided.
 
 Requirements
 ------------
 
 - Python >= 3.6
-- `Singularity <https://singularity.lbl.gov/docs-installation>`_
+- `Singularity (Apptainer) <https://singularity.lbl.gov/docs-installation>`_
 
 
 Installation from Pypi
 ----------------------
 
-This package is publicly available in Pypi:
+The package is publicly available in Pypi:
 
 .. code-block:: console
 
@@ -24,7 +32,7 @@ This package is publicly available in Pypi:
 Installation from source code
 -----------------------------
 
-This package provides an automatic installation script:
+An automatic installation script is available in the PerMedCoE base package GitHub repository:
 
 .. code-block:: console
 
@@ -41,7 +49,7 @@ This package provides an automatic installation script:
 Uninstall from Pypi
 -------------------
 
-Uninstall can be done as usual ``pip`` packages:
+The base package can be uninstalled can be done using ``pip uninstall``:
 
 .. code-block:: console
 
@@ -51,13 +59,13 @@ Uninstall can be done as usual ``pip`` packages:
 Uninstall from source code
 --------------------------
 
-If installed using ``install.sh``, the uninstall can be performed by running:
+If installed using ``install.sh``, the base package can be uninstalled by running:
 
 .. code-block:: console
 
     ./uninstall.sh
 
-And then the folder can be cleaned as well using the ``clean.sh`` script.
+The folder can then be cleaned using the ``clean.sh`` script.
 
 .. code-block:: console
 

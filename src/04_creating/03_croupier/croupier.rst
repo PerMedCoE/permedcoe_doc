@@ -1,4 +1,4 @@
-Application execution with Croupier
+Application Execution with Croupier
 ===================================
 
 Introduction
