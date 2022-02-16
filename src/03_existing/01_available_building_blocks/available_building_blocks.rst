@@ -55,3 +55,16 @@ matrices for the different cell types detected in each subject.
 
 `GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/single_cell_processing>`_
 
+Build model from species
+------------------------
+
+(Description TBA)
+
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/build_model_from_species>`_
+
+Print drug results
+------------------
+
+(Description TBA)
+
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/print_drug_results>`_
