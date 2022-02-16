@@ -64,7 +64,7 @@ Step-by-step
 .. dropdown:: Step 7: Test the Application
     :animate: fade-in
 
-    .. include:: /04_creating/04_creating/04_tutorial/steps/7_step.rst
+    .. include:: /04_creating/04_tutorial/steps/7_step.rst
 
 
 .. dropdown:: Step 8: Run your Application in a Supercomputer
