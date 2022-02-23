@@ -1,19 +1,15 @@
-:fa:`cogs` Components
-=====================
+:fa:`cogs` Base Package Components
+==================================
 
-The ``permedcoe`` package provides a Python API necessary for the development
-of **Building Blocks (BBs)** in the **HPC/Exascale Centre of Excellence in
-Personalised Medicine** (`PerMedCoE <https://permedcoe.eu/>`_) project.
-
-In addition, it provides a command line tool that eases the application or
-building block execution, as well as being able to create empty templates for them.
-
+This section provides an overview of ``permedcoe`` package components and functionalities. Further to a Python API
+for Building Block development, the package provides a command line tool that eases the execution of building blocks
+or applications, and creating templates for them.
 
 Python API
 ----------
 
 The ``permedcoe`` package provides a set of public decorators, parameter type
-definition and functions to be used in the Building Block implementation.
+definitions and functions to be used for Building Block implementation.
 
 - Public decorators:
 
@@ -25,7 +21,7 @@ definition and functions to be used in the Building Block implementation.
         from permedcoe import mpi
         from permedcoe import task
 
-- Parameter type definition:
+- Parameter type definitions:
 
     .. code-block:: python
 
@@ -43,15 +39,13 @@ definition and functions to be used in the Building Block implementation.
         from permedcoe import get_environment
 
 The usage of these decorators, type definitions and functions is described in
-:ref:`03_usage/01_building_block/building_block:Building block structure`
-Section.
+:ref:`04_creating/01_building_block_templates/building_block_templates:Building block structure`.
 
 Command line
 ------------
 
-This package provides the ``permedcoe`` command, which enables to execute
-single building blocks or applications, as well as to create skeletons for
-building blocks and applications.
+The ``permedcoe`` command can be used to execute individual Building Blocks or applications. 
+It can also be used to create empty building block or application templates.
 
 .. code-block:: console
 
@@ -76,7 +70,7 @@ Execution
 
 The execution of building blocks or applications with the ``permedcoe`` command
 is performed by indicating ``execute`` (or ``x``) after ``permedcoe``.
-The following snippet shows it followed the ``-h`` flag to provide the help.
+Adding the ``-h`` flag after `permedcoe execute` can be used to access help:
 
 .. code-block:: console
 
@@ -96,13 +90,13 @@ The following snippet shows it followed the ``-h`` flag to provide the help.
 Building Block execution
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-In particular, if ``permedcoe execute`` is followed by ``building_block`` (or
-``bb``), indicates that the user wants to execute an available building block.
+To execute an available building block, follow ``permedcoe execute`` by ``building_block`` (or
+``bb``).
 
 .. WARNING::
 
-    The building block to execute must be previously installed, and its name
-    (as imported in python) has to be provided.
+    The building block to be executed must be installed, and its name
+    (as imported in Python) has to be provided.
 
 .. code-block:: console
 
@@ -137,8 +131,8 @@ In particular, if ``permedcoe execute`` is followed by ``building_block`` (or
 Application execution
 ^^^^^^^^^^^^^^^^^^^^^
 
-Alternatively, if ``permedcoe execute`` is followed by ``application`` (or
-``app``), indicates that the user wants to execute the given application.
+Alternatively, ``permedcoe execute`` can be followed by ``application`` (or
+``app``) to execute an application.
 
 .. WARNING::
 
@@ -167,8 +161,8 @@ Alternatively, if ``permedcoe execute`` is followed by ``application`` (or
 Template creation
 ~~~~~~~~~~~~~~~~~
 
-The ``permedcoe`` command is also able to create a skeleton of a building block
-or an application:
+The ``permedcoe`` command can also be used to create an empty building block
+or application template:
 
 .. code-block:: console
 
