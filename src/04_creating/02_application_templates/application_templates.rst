@@ -1,5 +1,5 @@
-Application
-===========
+Application Templates
+=====================
 
 Application template creation
 -----------------------------
