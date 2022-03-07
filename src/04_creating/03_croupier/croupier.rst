@@ -80,8 +80,8 @@ execute multiple tasks (in sequence or in parallel) distributed across
 one or more target HPC infrastructures.
 These workflows are named **blueprints** in Cloudify terminology.
 They may also specify data objects, their role as tasks'
-inputs and/or outputs and the transfer entities that move such data from
-one source to a target.
+inputs and/or outputs, the data infrastructures data are located at and
+the transfer entities that move such data from one source to a target.
 Croupier's workflows are specified in YAML by using the **OASIS TOSCA** language (https://docs.cloudify.co/latest/developer/blueprints/).
 For the following, we use the Covid19 application as an example.
 
@@ -127,19 +127,23 @@ example, the Covid19 application input arguments are declared
                 required: true
 
 Then, the application inputs should be declared.
-There is a number of common inputs for a common application:
+There is a number of common inputs for a common application,
+whose examples below are taken from Covid19 app:
 
-- VAULT arguments required to obtain HPC access credentials, namely ``vault_token`` and ``user``.
-- HPC properties, such as the frontend ``hpc_host`` and the ``hpc_scheduler``
+- VAULT arguments required to obtain HPC and Data Service (DS) access credentials, namely ``vault_token`` and ``user``.
+- HPC infrastructure properties, such as the frontend ``hpc_host`` and the ``hpc_scheduler``
+- Data access infrastructures, such the ``hpc_dai_host``
 - PYCOMPSs arguments, such as the ``num_nodes`` and the ``exec_time``
-- Application specific args. In below example, the Covid19 input arguments
+- Application specific args.
 
 The number and type of arguments are variable and they are decided by the
 application provider. For instance, several Vault services can be defined,
-sharing the same vault_user, but requiring different tokens. Similarly,
-several HPC infrastructures can be used to distribute workflow tasks,
-and requiring dedicated inputs for each infrastructure, hence. The number
-and kind of PYCOMPSs arguments can be different across applications.
+sharing the same vault_user, but requiring different tokens.
+Several HPC infrastructures can be used to distribute workflow tasks,
+requiring dedicated configuration inputs for each infrastructure, hence.
+Similarly for data access infrastructures that host the data to be consumed
+or produced by workflow tasks.
+The number and kind of PYCOMPSs arguments can be different across applications.
 
 **Note:** This COVID-19 workflow example uses PYCOMPSs as the workflow scheduler.
 
@@ -158,6 +162,19 @@ and kind of PYCOMPSs arguments can be different across applications.
 
         hpc_scheduler:
             type: string
+
+        ################## DS Infrastructures #################
+        hpc_dai_host:
+            type: string
+
+        hpc_dai_internet_access:
+            type: boolean
+
+        target_dai_host:
+            type: string
+
+        target_dai_internet_access:
+            type: boolean
 
         ################# Covid 19 application ################
         covid19_args:
@@ -184,6 +201,8 @@ by using the ``get_input`` function:
         properties:
             token: { get_input: vault_token }
             user: { get_input: vault_user }
+
+**WORKFLOW SPECIFICATION**
 
 Then, one of more HPC infrastructures (where to execute the workflow's tasks)
 are declared as node instances of the type ``croupier.nodes.InfrastructureInterface``
@@ -248,29 +267,38 @@ as an instance of type ``croupier.nodes.PyCOMPSsJob``:
                     - use /apps/modules/modulefiles/tools/COMPSs/libraries
                     - load permedcoe
                 app_name: covid19
-                app_source: permedcoe/PilotWorkflow/covid19_pilot_workflow/PyCOMPSs
+                app_source: permedcoe_apps/covid19/covid-19-workflow-main/Workflow/PyCOMPSs/src
                 env:
-                    - COVID19_BB_IMAGES: '${COVID19_BB_IMAGES}'
-                    - COVID19_BB_ASSETS: '${COVID19_BB_ASSETS}'
-                    - dataset: '${COVID19_PILOT_DATASET}'
+                    - COVID19_BB_IMAGES: ${COVID19_BB_IMAGES}
+                    - COVID19_BB_ASSETS: ${COVID19_BB_ASSETS}
+                    - dataset: $HOME/permedcoe_apps/covid19/covid-19-workflow-main/Resources/data
                 compss_args:
                     num_nodes: { get_input: num_nodes }
                     exec_time: { get_input: exec_time }
-                    worker_working_dir: '$(pwd)'
-                    log_level: off
+                    log_level: 'off'
                     graph: true
-                    tracing: true
+                    tracing: 'false'
                     python_interpreter: python3
-                app_file: '{COMPS_APP_PATH}/covid19_pilot.py'
+                app_file: '$(pwd)/covid19_pilot.py'
                 app_args: { get_input: covid19_args }
+            deployment:
+                bootstrap: "scripts/deploy.sh"
+                revert: "scripts/revert.sh"
+                hpc_execution: false
             skip_cleanup: True
         relationships:
             - type: task_managed_by_interface
               target: hpc
+            - type: input
+              target: data_small
+            - type: output
+              target: covid_results
+            - type: deployment_source
+              target: github_data_access_infra
 
 Every task type has its own properties, including those inherited
 from the base type. For tasks of type ``croupier.nodes.PyCOMPSsJob``,
-like in above example, the properties required to define a task are:
+like in above example, the properties required to define a task are encoded under the ``job_options`` property:
 
 - ``modules``: list of module commands to be executed before the application is submitted by the PYCOMPSs manager.
 - ``app_name``: the name of the application
@@ -280,8 +308,21 @@ like in above example, the properties required to define a task are:
 - ``app_file``: path to the application executable file, in the deployed folder
 - ``app_args``: list of application arguments. Consult the concrete application documentation
 
-Finally, the task is declared to be run in a HPC infrastructure by setting a relationship of type
+Optionally, tasks can include a ``deployment`` property to request the deployment of the task app,
+before it is scheduled in the target HPC. This property includes:
+
+- ``bootstrap``: the path to the script that deploys the task application. This path is relative to the **blueprint zip** installed in Cloudify. This script is provided by the application workflow's provider.
+- ``revert``: the path to the script that undeploys the task application
+- ``hpc_execution``: boolean stating whether or not the script should be executed within the HPC frontend. If false, it will be executed from Cloudify/Croupier host. This is relevant when HPC has not Internet access and app deployment requires external resources.
+
+Next, the task is declared to be run in a HPC infrastructure by setting a relationship of type
 ``task_managed_by_interface`` whose ``target`` points at the HPC node.
+Optionally, tasks inputs and outputs can be declared by using the ``input`` and ``output`` relationships.
+They refer to **data objects** declared within the **dataflow** specification. See below subsection in **Dataflow Specification**
+In case a deployment block has been specified within the properties block, the server source for application deployment
+can optionally be specified with the ``deployment_source`` relationship.
+This is required when this deployment source is not hardcoded in the deployment script, so the application
+can be deployed from a source to specify.
 
 Note that in this specification of a PYCOMPSs task, some properties are
 hardcoded by the application provider, while others
@@ -289,6 +330,86 @@ hardcoded by the application provider, while others
 declared workflow's inputs, by using the ``get_input`` function. The
 application provider decides what data must be provided by the consumer as input.
 
+**DATAFLOW SPECIFICATION**
+
+Besides the specification of the  workflow, the application blueprint can include the
+specification of the dataflow, which consist of the declaration of :
+
+- **data access infrastructures** that host the data consumed/produced by the workflow
+- **data objects** consumed/produced by workflow tasks as inputs/outputs
+- **data transfer objects** that move data from one source to a target
+
+Data access infrastructures are declared as node templates of type ``croupier.nodes.DataAccessInfrastructure``
+
+  .. code-block:: yaml
+
+    hpc_data_access_infra:
+        type: croupier.nodes.DataAccessInfrastructure
+        properties:
+            endpoint: { get_input: hpc_dai_host }
+            internet_access: { get_input: hpc_dai_internet_access }
+            supported_protocols:
+                - RSync
+        relationships:
+            - type: retrieve_credentials_from_vault
+              target: vault
+
+The mandatory ``endpoint`` property declares the data access infrastructure internet address: **http(s)://<host>:<port>**
+``internet_access`` property declares whether or not that data infrastructure has access to Internet. Depending on this,
+the **data transfer** objects can adopt different data transfer strategies. As for HPC infrastructure,
+the ``retrieve_credentials_from_vault`` relationship can be established to use a declared **Vault** instance for
+retrieving the user's credentials for accessing this infrastructure.
+
+Data objects are declared as node instances whose types depends on the kind of data object. Currently, there are supported:
+
+- ``croupier.nodes.FileDataSource``: data object located at the filesystem of a remote server, typically accessible by (s)ftp or rsync
+- ``croupier.nodes.WebDataSource``: data object located at a Cloud Web server, accessible by HTTP
+
+Next example, from Covid 19 app, declares a data object of ``croupier.nodes.WebDataSource`` kind.
+
+  .. code-block:: yaml
+
+    data_small_source:
+        type: croupier.nodes.WebDataSource
+        properties:
+            resource: /PerMedCoE/covid-19-workflow/tree/main/Resources/data/small
+        relationships:
+            - type: ds_located_at
+              target: github_data_access_infra
+
+For Web data sources the property ``resource`` declares the route to the data within the infrastructure it is located,
+which is declared with the ``ds_located_at`` relationship.
+
+Next example, from Covid 19 app, declares a data object of ``croupier.nodes.WebDataSource`` kind.
+
+.. code-block:: yaml
+
+    data_small:
+        type: croupier.nodes.FileDataSource
+        properties:
+            filepath: ~/permedcoe_apps/covid19/covid-19-workflow-main/Resources/data/small/
+        relationships:
+            - type: ds_located_at
+              target: hpc_data_access_infra
+
+For File data sources the property ``filepath`` declares the path to the data within the
+filesystem of the infrastructure it is located.
+
+Data transfer objects declare objects that transfer the data located in their ``from_source`` relationship
+into the data source target declared in their ``to_target`` relationship, by using the data transfer protocol
+specified in the property ``transfer_protocol``
+
+.. code-block:: yaml
+
+    dt_http:
+        type: croupier.nodes.DataTransfer
+        properties:
+            transfer_protocol: HTTP
+        relationships:
+            - type: from_source
+              target: data_small_source
+            - type: to_target
+              target: data_small
 
 Application installation
 ------------------------
@@ -373,14 +494,23 @@ An example of ``inputs.yaml`` file for our Covid19 application is given below:
     num_nodes: 2
     exec_time: 45
 
+    # DATAFLOW
+    hpc_dai_host: dt01.bsc.es
+    hpc_dai_internet_access: false
+
+    target_dai_host: sodalite-fe.hlrs.de
+    target_dai_internet_access: false
+
 These consumer's specific inputs correspond to those declared in the Covid19 application's
 workflow specification above. In particular, the consumer specifies the Mare Nostrum 4
 as the HPC infrastructure where to deploy the application, as well as PyCOMPSs as
 its scheduler. Then, the consumer's required inputs for the Covid19 application
 are also given, together with few PyCOMPSs execution parameters, which must be
-tuned according to the size of the Covid19 application inputs. The consumer also
-provides the Vault secret token required to recover her credentials to get access to
-the target HPC infrastructure. **Disclaimer**: In next Croupier release, that will
+tuned according to the size of the Covid19 application inputs. Moreover, the data access infrastructures
+involved in this application dataflow are also provided.
+The consumer also provides the Vault secret token required to recover her credentials to get access to
+the target HPC infrastructure.
+**Disclaimer**: In next Croupier release, that will
 integrate its frontend, the Vault token will be injected by the frontend, after
 the user logs in through the KeyCloak SSO portal.
 
