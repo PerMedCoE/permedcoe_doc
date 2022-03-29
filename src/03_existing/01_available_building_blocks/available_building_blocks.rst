@@ -11,9 +11,9 @@ files <https://github.com/PerMedCoE/BuildingBlocks/tree/main/Resources/images>`_
 High-throughput mutant analysis
 -------------------------------
 
-Taking a Boolean model as the input, uses MaBoSS to perform a single simulation per
-mutant for all model nodes to determine the most relevant candidate genes to be mutated
-to inhibit or promote a given model output (or phenotype). Outputs a candidate gene list
+Taking a Boolean model as the input, this building block uses MaBoSS to perform a single simulation per
+node for all the model nodes to determine the most relevant candidate genes to be mutated
+to inhibit or promote a given model output or phenotype. It produces a candidate gene list
 formatted as a text file (single gene per row).
 
 `GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/MaBoSS>`__
@@ -32,16 +32,16 @@ Personalise patient
 
 Taking output data produced by the `High-throughput mutant analysis` and `Single cell processing`
 building blocks (i.e. candidate genes and normalised gene expression matrices) as the input,
-customises the Boolean model according to normalised expression values obtained for genes included
-in the model. In addition, for each patient, the effect of knocking out each of the candidate
+customises the Boolean model according to the normalised expression values obtained for genes included
+in the model to have patient-specific Boolean models. In addition, for each patient, the effect of knocking out each of the candidate
 genes is evaluated.
 
 `GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/personalize_patient>`__
 
-PhysiBoss
+PhysiBoSS
 ---------
 
-Uses PhysiBoSS to perform multiscale simulations corresponding to unmutated (wild type) and mutant
+Uses PhysiBoSS to perform multiscale simulations of the wild type and mutant
 models for each patient, computing a predefined number of replicates to control for the stochastic
 nature of the simulations.
 
@@ -50,8 +50,8 @@ nature of the simulations.
 Single-cell processing
 ----------------------
 
-Taking patient-specific single-cell RNA sequencing data as the input, constructs normalised expression
-matrices for the different cell types detected in each subject.
+Taking single-cell RNA sequencing data as the input, this building block constructs normalised expression
+matrices for the different cell types detected in each dataset.
 
 `GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/single_cell_processing>`__
 
