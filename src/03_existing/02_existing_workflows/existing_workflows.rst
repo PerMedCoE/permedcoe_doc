@@ -2,7 +2,12 @@ Existing Workflows
 ==================
 
 This section provides general descriptions of existing PerMedCoE Workflows, as
-well as links to Workflow GitHub repositories. 
+well as links to Workflow GitHub repositories.
+
+.. ATTENTION::
+
+    They are currently **private** but will be available soon!
+
 
 Basic examples
 --------------
@@ -22,12 +27,12 @@ call ``gromacs`` `can be found here <https://github.com/PerMedCoE/Lysozyme_in_wa
 COVID-19 multiscale modelling of the virus and patients’ tissue
 ---------------------------------------------------------------
 
-Uses multiscale simulations to predict patient-specific SARS‑CoV‑2 severity subtypes 
-(moderate, severe or control), using single-cell RNA-Seq data, MaBoSS and PhysiBoSS. 
+Uses multiscale simulations to predict patient-specific SARS‑CoV‑2 severity subtypes
+(moderate, severe or control), using single-cell RNA-Seq data, MaBoSS and PhysiBoSS.
 Boolean models are used to determine the behaviour of individual agents as a function
-of extracellular conditions and the concentration of different  substrates, including 
-the number of virions. Predictions of severity subtypes are based on a meta-analysis of 
-personalised model outputs simulating cellular apoptosis regulation in epithelial cells 
+of extracellular conditions and the concentration of different  substrates, including
+the number of virions. Predictions of severity subtypes are based on a meta-analysis of
+personalised model outputs simulating cellular apoptosis regulation in epithelial cells
 infected by SARS‑CoV‑2.
 
 The workflow uses the following building blocks, described in order of execution:

@@ -8,6 +8,11 @@ repository <https://github.com/PerMedCoE/BuildingBlocks>`_. The repository also
 contains `Singularity (Apptainer) definition
 files <https://github.com/PerMedCoE/BuildingBlocks/tree/main/Resources/images>`_.
 
+.. ATTENTION::
+
+    They are currently **private** but will be available soon!
+
+
 High-throughput mutant analysis
 -------------------------------
 
@@ -16,7 +21,7 @@ node for all the model nodes to determine the most relevant candidate genes to b
 to inhibit or promote a given model output or phenotype. It produces a candidate gene list
 formatted as a text file (single gene per row).
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/MaBoSS>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/MaBoSS>`__ (currently **private** but will be available soon!)
 
 Analysis of all simulations
 ---------------------------
@@ -25,7 +30,7 @@ Employs a meta-analysis to determine the predictive capacity of multiscale model
 regard to COVID-19 severity subtypes (moderate, severe or control) corresponding to
 individual patients.
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/meta_analysis>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/meta_analysis>`__ (currently **private** but will be available soon!)
 
 Personalise patient
 -------------------
@@ -36,7 +41,7 @@ customises the Boolean model according to the normalised expression values obtai
 in the model to have patient-specific Boolean models. In addition, for each patient, the effect of knocking out each of the candidate
 genes is evaluated.
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/personalize_patient>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/personalize_patient>`__ (currently **private** but will be available soon!)
 
 PhysiBoSS
 ---------
@@ -45,7 +50,7 @@ Uses PhysiBoSS to perform multiscale simulations of the wild type and mutant
 models for each patient, computing a predefined number of replicates to control for the stochastic
 nature of the simulations.
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS>`__ (currently **private** but will be available soon!)
 
 Single-cell processing
 ----------------------
@@ -53,18 +58,18 @@ Single-cell processing
 Taking single-cell RNA sequencing data as the input, this building block constructs normalised expression
 matrices for the different cell types detected in each dataset.
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/single_cell_processing>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/single_cell_processing>`__ (currently **private** but will be available soon!)
 
 Build model from species
 ------------------------
 
 (Description TBA)
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/build_model_from_species>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/build_model_from_species>`__ (currently **private** but will be available soon!)
 
 Print drug results
 ------------------
 
 (Description TBA)
 
-`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/print_drug_results>`__
+`GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/print_drug_results>`__ (currently **private** but will be available soon!)
