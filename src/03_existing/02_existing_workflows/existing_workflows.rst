@@ -58,7 +58,7 @@ The workflow uses the following building blocks, described in order of execution
 4. Print drug results
 
 For details on individual workflow steps, see the user documentation for each building block.
-`GitHub repository https://github.com/PerMedCoE/drug-synergies-workflow>`_
+`GitHub repository <https://github.com/PerMedCoE/drug-synergies-workflow>`_
 
 
 Single drug prediction
