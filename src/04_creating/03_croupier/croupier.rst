@@ -437,7 +437,7 @@ specified in the property ``transfer_protocol``
             - type: to_target
               target: data_small
 
-Application installation (Rol: application owner)
+Application installation (Rol: application provider)
 -------------------------------------------------
 **Frontend**: Cloudify Web UI: http://cloudify.croupier.ari-aidata.eu/
 
@@ -478,51 +478,73 @@ Application instance deployment (Rol: application consumer)
 -----------------------------------------------------------
 **Frontend**: Croupier Web UI: http://frontend.croupier.ari-aidata.eu/
 
-A consumer browse the list of available applications in the Cloudify list of blueprints.
-To deploy a consumer's instance of the blueprint, the consumer takes the following
+An application consumer can browse the list of available applications in the Croupier Web UI.
+For that, open the leftmost option bar (open it by clicking on the icon on the left of the Croupier
+Portal header), and select Applications. Then, available applications will be
+displayed in the page.
+
+.. image:: ../../../_static/figures/frontend_available_applications.png
+   :width: 1200
+   :align: center
+
+
+To deploy a consumer's instance of an application, the consumer takes the following
 procedure:
 
-- Click on the button with the rocket icon located at the leftmost side of the row of the selected application in the list of blueprints.
+- Click on the icon of the selected application. Then, Croupier Web will show a page showing the application details. This page includes three tabs (i.e. Basic configuration, Expert configuration and Upload file) to provide inputs for the application instance that will be created. In this example, we use an external inputs file, so select the Upload file tab
 
-.. image:: ../../../_static/figures/cloudify_deploy_blueprint.png
-   :width: 250
+.. image:: ../../../_static/figures/frontend_deploy_application.png
+   :width: 1200
    :align: center
 
-- In the Blueprint deployment wizard, give a ``deployment name``, and optionally, a unique, human-meaningful ``deployment-id``
-- Next, provide values for the application's inputs. This can be done either by direct editing in the form, or by reading them from a ``inputs.yaml`` that is selected from the consumer's file system, by clicking on the **Load Values** button. Loaded inputs' values can be latter edited in this form, before it is submitted.
-- Once the application inputs' values are provided, click on the **Deploy and Install** button. In the next wizard, click on the **Execute** button.
+- Click on the ``Choose file`` button. Browse your file system and select your application inputs file.
+- Next, you can verify the loaded inputs by selecting the ``Expert configuration`` tab. Verify the loaded inputs, complete or modify them, if needed. Provide a name to your application instance.
 
-.. image:: ../../../_static/figures/cloudify_deploy_blueprint_wizard.png
-   :width: 600
+.. image:: ../../../_static/figures/frontend_application_inputs.png
+   :width: 1200
    :align: center
+
+- Once the application inputs' values are provided, click on the **Save button** button to create the instance.
 
 An example of ``inputs.yaml`` file for our Covid19 application is given below:
 
   .. code-block:: yaml
-
-    # VAULT
-    vault_token: 's.jaH92wPSyAPszvTro3qj4Y5C'
-    vault_user: 'yosu'
 
     # WORKFLOW
     # HPC infrastructures
     # HPC
     hpc_host: mn1.bsc.es
     hpc_scheduler: PYCOMPSS
+    hpc_scheduler_modules:
+      - export COMPSS_PYTHON_VERSION=3
+      - module load COMPSs/3.0
+      - module load singularity/3.5.2
+      - module use /apps/modules/modulefiles/tools/COMPSs/libraries
+      - module load permedcoe
+    monitor_scheduler: SLURM
 
     # COVID19 args
+    job_pre_script:
+      -
     covid19_args:
-      metadata: '${dataset}metadata_clean.tsv'
-      model_prefix: '${dataset}epithelial_cell_2'
+      metadata: '${dataset}/metadata_clean.tsv'
+      model_prefix: '${dataset}/epithelial_cell_2'
       outdir: '$(pwd)/results/'
       ko_file: '$(pwd)/ko_file.txt'
       reps: 2
       model: 'epithelial_cell_2'
       data_folder: '${dataset}'
+      simulation_time: 100
 
     # PYCOMPSs args
-    num_nodes: 2
-    exec_time: 45
+    pycompss_args:
+      num_nodes: 2
+      exec_time: 45
+      log_level: 'off'
+      graph: true
+      tracing: 'false'
+      python_interpreter: python3
+      qos: debug
 
     # DATAFLOW
     hpc_dai_host: dt01.bsc.es
@@ -538,54 +560,40 @@ its scheduler. Then, the consumer's required inputs for the Covid19 application
 are also given, together with few PyCOMPSs execution parameters, which must be
 tuned according to the size of the Covid19 application inputs. Moreover, the data access infrastructures
 involved in this application dataflow are also provided.
-The consumer also provides the Vault secret token required to recover her credentials to get access to
-the target HPC infrastructure.
-**Disclaimer**: In next Croupier release, that will
-integrate its frontend, the Vault token will be injected by the frontend, after
-the user logs in through the KeyCloak SSO portal.
 
-When the application deployment starts, Cloudify shows the deployment details page.
-Once the deploy is complete, you will see a workflow graph with all nodes in green
-(successful deployment) or one in red (failed deployment).
+When the application deployment starts, shows the application instance page.
+This page gives details about the instance, including associated inputs, in the ``Details`` tab.
+The ``Logs`` tab shows the logs of last executions.
+The ``Executions`` tab shows the list of executions.
 
-.. image:: ../../../_static/figures/cloudify_deployment_success.png
+.. image:: ../../../_static/figures/frontend_application_instance.png
    :width: 1000
    :align: center
-
-.. image:: ../../../_static/figures/cloudify_deployment_failed.png
-   :width: 1000
-   :align: center
-
-If the deployment fails, the Croupier administrator can inspect the logs, below
-in the same web page, to analyse the causes.
-
-**Note:** The workflow graph is application specific and does not reflect the
-application deployment topology described above by the provider. This graph is
-intended to be interpreted by the Cloudify/Croupier administrator.
 
 Application instance execution
 ------------------------------
 Once a consumer's instance of the application has been deployed into the target HPC
-infrastructures, can be executed, by taking the following procedure:
+infrastructures, it can be executed.
 
-- Click on **Execute workflow** button, and select **Croupier/run_jobs**. Then, the workflow execution will be triggered
+To start a new execution, click on ``Execute`` button located at the bottom of the ``Details`` tab.
 
-.. image:: ../../../_static/figures/croupier_run_jobs.png
-   :width: 200
-   :align: center
+To see execution logs, click on the ``Logs`` tab. You can browse the logs
+by moving through the pages, filter the logs by type, by event type, and log level.
+You can refresh the logs page to fetch new ones.
 
-Once the workflow has been started, the status can be monitored with the logs located in the **Deployment Events/Logs** panel at the botton of the web page.
-
-.. image:: ../../../_static/figures/croupier_execution_logs.png
+.. image:: ../../../_static/figures/frontend_application_execution_logs.png
    :width: 1000
    :align: center
 
-When the workflow completes, the status (either failed or succeeded) is reported
+To see the list of the instance executions, click on the ``Executions`` tab.
+For each execution, timing, termination status, and the occurrence of errors is reported.
 
-.. image:: ../../../_static/figures/croupier_execution_result.png
-   :width: 300
+.. image:: ../../../_static/figures/frontend_application_execution_list.png
+   :width: 1000
    :align: center
 
+As a summary, the frontend dashboard (accessible from the leftmost option panel) shows all deployend instances (for any application) and the executions
 
-**Disclaimer:** The procedure described above to deploy and execute an
-application by the consumer will be automated by Croupier frontend in next release.
+.. image:: ../../../_static/figures/frontend_dashboard.png
+   :width: 1000
+   :align: center
