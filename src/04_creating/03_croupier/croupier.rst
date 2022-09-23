@@ -8,38 +8,47 @@ either application providers and consumers to deploy and execute applications
 across multiple HPC infrastructures, and move data from one infrastructure
 to another. Application providers use Croupier to make their applications
 available for consumers in the Croupier marketplace. Application consumers browse
-available application and execute then in selected HPC infrastructures.
-
-
-Disclaimer
-----------
-Croupier is a HPC-metaorchestration plugin installed in
-the Cloudify cloud meta-orchestrator. Both application providers and consumers
-will interface Croupier through its dedicated web frontend, which is not yet
-integrated for PerMedCoE project. Therefore, this current version of the
-documentation uses Cloudify frontend to install applications, deploy and execute
-them. Once the Croupier frontend is integrated, this documentation will be
-updated, replacing the Cloudify frontend.
+available applications and execute then in selected HPC infrastructures.
 
 Prerequisites
 -------------
 The Croupier administrator should take care of installing all required
-dependencies and the Croupier plugin. Atos will make Croupier accessible
-through its frontend at http://frontend.croupier.permedcoe.eu (not yet available).
+dependencies and the Croupier plugin. Atos make Croupier ecosystem accessible
+through its frontend at http://frontend.croupier.ari-aidata.eu.
 
-Cloudify installation
-~~~~~~~~~~~~~~~~~~~~~
-Croupier is a plugin of Cloudify cloud orchestrator (https://cloudify.co/).
-To install Cloudify Community Edition, follow instructions available at: https://docs.cloudify.co/latest/trial_getting_started/set_trial_manager/download_community
-The following instructions have been tested in **version 6.2.0**
+Croupier's framework
+--------------------
+Croupier framework consist of several interconnected services, namely:
 
-Croupier installation
-~~~~~~~~~~~~~~~~~~~~~
+- Cloudify (https://cloudify.co/) is the Cloud workflow engine that hosts HPC-based workflow executions by using Croupier as aplugin.
+- Keycloak (https://www.keycloak.org/) is an IAM service that offers a SSO across multiple application. Croupier frontend uses KeyCloak to authenticate users
+- Hashicorp Vault (https://www.vaultproject.io) is a secret store. Croupier frontend uses Vault to retrieve HPC user's credentials to get access to the target HPC frontend on behalf of the user.
+- Vault Secret Uploader (https://github.com/ari-apc-lab/vault-secret-uploader) offers an REST API interface for CRUD operations of Vault secrets. This API is used by users to store their credentials
+- HPC Exporter (https://github.com/ari-apc-lab/hpc-exporter/tree/nojwt) collects HPC partition/queue and job execution metrics when requested by the main monitoring engine (i.e. Prometheus)
+- Prometheus (https://prometheus.io/) is the main monitoring engine in the Croupier framework, storing collected metrics and offering SQL-like quering language PROMQL.
+- Grafana (https://grafana.com/) is the main metrics visualization tool used to render HPC partition/queue and job dashboards
+- Grafana Registry (https://github.com/ari-apc-lab/grafana-registry) tool is used to register Grafana dashboards for users executing workflows
+- Croupier backend (https://github.com/ari-apc-lab/croupier-backend/tree/permedcoe) is the backend implementation of the Croupier Web-based interface. This component iteracts with Cloudify for workflow managemente and execution
+- Croupier frontend (https://github.com/ari-apc-lab/croupier-frontend/tree/permedcoe) is the frontend implementation of the Croupier Web-based interface. It provides the Web UI that interfaces application consumers
+
+Contact Croupier administrator (jesus.gorronogoitia@atos.net) for instructions to deploy and configure
+instances of these services required by Croupier.
+
+Kubernetes (k8s) manifests for the manual deployment of the Croupier services listed above are available at GitHub:
+https://github.com/ari-apc-lab/k8s-resources/tree/permedcoe
+
+Helm charts for k8s semi-automatic deployment are available at (e.g. some manual configuration is still required):
+https://github.com/ari-apc-lab/k8s-resources/tree/permedcoe/helm-charts
+
+
+Croupier plugin installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To install Croupier plugin, you need a Croupier Wagon file, compiled for CentOS.
 Contact Croupier administrator (jesus.gorronogoitia@atos.net) for the latest
-Croupier wheel and the ``plugin.yaml`` descriptor. Next, log into Cloudify with **admin** account.
-Click on the **resources** tab in the leftmost panel. Click on the **Resources**
-tab in the main page. Then, click on the **upload** button in the right of the
+Croupier wheel and the ``plugin.yaml`` descriptor. Next, log into Cloudify
+the with **admin** account.
+Click on the **Resources** tab in the leftmost panel. Next, click on the **Plugins**
+tab in the main page. Then, click on the **upload** button on the right of the
 **Plugin list** table. Select **upload a package**
 
 .. image:: ../../../_static/figures/cloudify_upload_plugin.png
@@ -61,18 +70,6 @@ Check the Croupier plugin installation in the list of plugins.
    :width: 1000
    :align: center
 
-
-Other services:
-~~~~~~~~~~~~~~~
-Croupier require additional services, **KeyCloak** and **Vault** to work.
-
-- Keycloak (https://www.keycloak.org/) is an IAM service that offers a SSO across multiple application. Croupier frontend uses KeyCloak to authenticate users
-- Hashicorp Vault (https://www.vaultproject.io) is a secret store. Croupier frontend uses Vault to retrieve HPC user's credentials to get access to the target HPC frontend on behalf of the user.
-
-Contact Croupier administrator (jesus.gorronogoitia@atos.net) for
-instructions to configure your KeyCloak and Vault instances to be used
-by Croupier.
-
 Application definition (Blueprint)
 ----------------------------------
 Application providers define their applications as meta-workflows that
@@ -80,13 +77,13 @@ execute multiple tasks (in sequence or in parallel) distributed across
 one or more target HPC infrastructures.
 These workflows are named **blueprints** in Cloudify terminology.
 They may also specify data objects, their role as tasks'
-inputs and/or outputs, the data infrastructures data are located at and
-the transfer entities that move such data from one source to a target.
+inputs and/or outputs, the data infrastructures where those data objects are located at and
+the transfer entities that move such data objects from one source to a target.
 Croupier's workflows are specified in YAML by using the **OASIS TOSCA** language (https://docs.cloudify.co/latest/developer/blueprints/).
 For the following, we use the Covid19 application as an example.
 
-The application workflow starts with a header that declares at least imports
-read the Croupier workflow model. Other imports could be possible if required
+The application workflow starts with a header that at least declares the imports
+to use the Croupier plugin. Other imports could be possible if required
 by the application.
 
   .. code-block:: yaml
@@ -125,16 +122,32 @@ example, the Covid19 application input arguments are declared
             data_folder:
                 type: string
                 required: true
+            simulation_time:
+                type: integer
+                required: true
+
+These data types are application specific, and determined by the application provider.
 
 Then, the application inputs should be declared.
 There is a number of common inputs for a common application,
-whose examples below are taken from Covid19 app:
+whose examples below are taken from Covid19 app
+(**Note**: some of these concrete inputs are application specific, determined by the application provider. Common ones are mentioned below):
 
-- VAULT arguments required to obtain HPC and Data Service (DS) access credentials, namely ``vault_token`` and ``user``.
-- HPC infrastructure properties, such as the frontend ``hpc_host`` and the ``hpc_scheduler``
-- Data access infrastructures, such the ``hpc_dai_host``
-- PYCOMPSs arguments, such as the ``num_nodes`` and the ``exec_time``
-- Application specific args.
+- VAULT arguments required to obtain access credentials for target HPC and Data Service (DS), namely:
+    - ``iam_jwt``: jwt token issued by Keycloak as a result of a valid user authentication
+    - ``iam_user``: Keycloak user
+- HPC infrastructure properties:
+    - ``hpc_host``: HPC frontend endpoint
+    - ``hpc_scheduler``: HPC scheduler used for task schedule. Valid supported options: SLURM, PBS, PYCOMPSS
+    - ``hpc_scheduler_modules``: optional list of module commands required to enable the hpc_scheduler (Note: this may be required for PYCOMPSs)
+    - ``monitor_scheduler``: HPC scheduler use for monitoring. Valid supported options: SLURM, PBS
+- Data access infrastructures:
+    - ``hpc_dai_host``: Data Access Infrastructure (DAI) hosting some data sources
+    - ``hpc_dai_internet_access``: boolean flag specifying if DAI host supports internet access
+- List of PYCOMPSs arguments, defined by type croupier.datatypes.pycompss_options.
+- Application specific args:
+    - ``job_pre_script``: optional list of bash script commands to executed before task submission
+    - ``covid19_args``: list of Covid19 arguments
 
 The number and type of arguments are variable and they are decided by the
 application provider. For instance, several Vault services can be defined,
@@ -149,11 +162,11 @@ The number and kind of PYCOMPSs arguments can be different across applications.
 
   .. code-block:: yaml
 
-    inputs:
+      inputs:
         ########################## VAULT ######################
-        vault_token:
+        iam_jwt:
             type: string
-        vault_user:
+        iam_user:
             type: string
 
         ################# HPC Infrastructures #################
@@ -161,6 +174,12 @@ The number and kind of PYCOMPSs arguments can be different across applications.
             type: string
 
         hpc_scheduler:
+            type: string
+
+        hpc_scheduler_modules:
+            type: list
+
+        monitor_scheduler:
             type: string
 
         ################## DS Infrastructures #################
@@ -177,30 +196,40 @@ The number and kind of PYCOMPSs arguments can be different across applications.
             type: boolean
 
         ################# Covid 19 application ################
+        job_pre_script:
+            type: list
+
         covid19_args:
             type: permedcoe.covid19.args
 
         ##################### PYCOMPSs args ###################
-        num_nodes:
-            type: integer
-        exec_time:
-            type: integer
+        pycompss_args:
+            type: croupier.datatypes.pycompss_options
 
-Next, one or more Vault nodes must be declared. Vault nodes are used
-as secret stores where to retrieve from the credentials required to access
-the target HPC infrastructures, through ssh, to schedule workflow' tasks
-(as jobs). The following block declares one Vault node of type ``croupier.nodes.Vault``.
-Note that Vault properties (``token`` and ``user``) are taken from inputs
-by using the ``get_input`` function:
+
+Next, if the application workflow needs to collect task execution metrics for monitoring, one hpc_exporter instance,
+of type of type ``croupier.nodes.HPCExporter``, must be declared
 
   .. code-block:: yaml
 
     node_templates:
+        hpc_exporter:
+            type: croupier.nodes.HPCExporter
+
+Then, one or more Vault nodes must be declared. Vault nodes are used
+as secret stores where to retrieve from the credentials required to access
+the target HPC infrastructures, through ssh, to schedule workflow' tasks
+(as jobs). The following block declares one Vault node of type ``croupier.nodes.Vault``.
+Note that Vault properties (``jwt`` and ``user``) are taken from inputs
+by using the ``get_input`` function:
+
+  .. code-block:: yaml
+
     vault:
         type: croupier.nodes.Vault
         properties:
-            token: { get_input: vault_token }
-            user: { get_input: vault_user }
+            jwt: { get_input: iam_jwt }
+            user: { get_input: iam_user }
 
 **WORKFLOW SPECIFICATION**
 
@@ -221,12 +250,14 @@ specified in the workflow.
 - ``job_prefix`` declare a prefix for naming the submitted jobs.
 - ``base_dir`` declares the path where Croupier folder for workflow execution will be created.
 - ``monitoring_options/monitor_period`` declares the period of Croupier's requests to the HPC frontend to check the task job execution/queue status.
+- ``monitoring_options/monitor_interface`` declares the HPC scheduler used to collect partition/queue and task execution metrics. If not set, the HPC scheduler for task submission is used. It is required if task scheduler is PYCOMPSs, as it cannot be used for monitoring
 - ``workdir_prefix`` declares the name of the folder create for every task job executed. This folder will contain the deployed application, its execution logs and
 
 Finally, the HPC infrastructure node is associated to the Vault node, by using
 a relationship of type ``retrieve_credentials_from_vault`` that states that
 the HPC ``credentials`` will be retrieved from that node,
-declared in the ``target``
+declared in the ``target``. Similarly, the relationship ``interface_monitored_by`` establishes the
+monitoring exporter used to collect HPC partition/queues and task metrics
 
   .. code-block:: yaml
 
@@ -235,17 +266,21 @@ declared in the ``target``
         properties:
             config:
                 infrastructure_interface: { get_input: hpc_scheduler }
+                modules: { get_input: hpc_scheduler_modules}
             credentials:
                 host: { get_input: hpc_host }
             job_prefix: croupier
             base_dir: $HOME
             monitoring_options:
-                monitor_period: 15
+                monitor_period: 60
+                monitor_interface: { get_input: monitor_scheduler }
             skip_cleanup: true
-            workdir_prefix: "pycompss-test"
+            workdir_prefix: "covid19-deploy"
         relationships:
             - type: retrieve_credentials_from_vault
               target: vault
+            - type: interface_monitored_by
+              target: hpc_exporter
 
 
 In a similar way, the workflow provider can define additional HPC
@@ -262,23 +297,14 @@ as an instance of type ``croupier.nodes.PyCOMPSsJob``:
         type: croupier.nodes.PyCOMPSsJob
         properties:
             job_options:
-                modules:
-                    - load singularity/3.5.2
-                    - use /apps/modules/modulefiles/tools/COMPSs/libraries
-                    - load permedcoe
+                pre_script: { get_input: job_pre_script}
                 app_name: covid19
                 app_source: permedcoe_apps/covid19/covid-19-workflow-main/Workflow/PyCOMPSs/src
                 env:
-                    - COVID19_BB_IMAGES: ${COVID19_BB_IMAGES}
-                    - COVID19_BB_ASSETS: ${COVID19_BB_ASSETS}
+                    - COMPSS_PYTHON_VERSION: 3
+                    - PERMEDCOE_IMAGES: ${PERMEDCOE_IMAGES}
                     - dataset: $HOME/permedcoe_apps/covid19/covid-19-workflow-main/Resources/data
-                compss_args:
-                    num_nodes: { get_input: num_nodes }
-                    exec_time: { get_input: exec_time }
-                    log_level: 'off'
-                    graph: true
-                    tracing: 'false'
-                    python_interpreter: python3
+                compss_args: { get_input: pycompss_args }
                 app_file: '$(pwd)/covid19_pilot.py'
                 app_args: { get_input: covid19_args }
             deployment:
@@ -300,9 +326,9 @@ Every task type has its own properties, including those inherited
 from the base type. For tasks of type ``croupier.nodes.PyCOMPSsJob``,
 like in above example, the properties required to define a task are encoded under the ``job_options`` property:
 
-- ``modules``: list of module commands to be executed before the application is submitted by the PYCOMPSs manager.
+- ``pre_script``: list of commands to be executed before the application is submitted by the PYCOMPSs manager.
 - ``app_name``: the name of the application
-- ``app_source``: path to the application source, from where it will be deployed
+- ``app_source``: path to the application task source, from where it will be executed
 - ``env``: list of environment variables
 - ``compss_args``: list of PYCOMPSs arguments. See `PYCOMPSs documentation <https://pycompss.readthedocs.io/en/stable/Sections/03_Execution_Environments/01_Master_worker/01_Local/01_Executing.html#runcompss-command>`_ for more details
 - ``app_file``: path to the application executable file, in the deployed folder
@@ -316,17 +342,17 @@ before it is scheduled in the target HPC. This property includes:
 - ``hpc_execution``: boolean stating whether or not the script should be executed within the HPC frontend. If false, it will be executed from Cloudify/Croupier host. This is relevant when HPC has not Internet access and app deployment requires external resources.
 
 Next, the task is declared to be run in a HPC infrastructure by setting a relationship of type
-``task_managed_by_interface`` whose ``target`` points at the HPC node.
-Optionally, tasks inputs and outputs can be declared by using the ``input`` and ``output`` relationships.
-They refer to **data objects** declared within the **dataflow** specification. See below subsection in **Dataflow Specification**
-In case a deployment block has been specified within the properties block, the server source for application deployment
+``task_managed_by_interface`` whose ``target`` points at a HPC node declared before.
+Optionally, tasks inputs and outputs can be declared by using the ``input`` and ``output`` relationships, respectively.
+They refer to **data objects** declared within the **dataflow** specification. See below subsection in **Dataflow Specification**.
+In case a ``deployment`` block has been specified within the properties block, the server source for application deployment
 can optionally be specified with the ``deployment_source`` relationship.
 This is required when this deployment source is not hardcoded in the deployment script, so the application
 can be deployed from a source to specify.
 
 Note that in this specification of a PYCOMPSs task, some properties are
 hardcoded by the application provider, while others
-(e.g. ``num_nodes`` of ``compss_args``, or ``app_args``) are taken from the
+(e.g. ``app_source`` of ``compss_args``, or ``app_args``) are taken from the
 declared workflow's inputs, by using the ``get_input`` function. The
 application provider decides what data must be provided by the consumer as input.
 
@@ -355,8 +381,8 @@ Data access infrastructures are declared as node templates of type ``croupier.no
               target: vault
 
 The mandatory ``endpoint`` property declares the data access infrastructure internet address: **http(s)://<host>:<port>**
-``internet_access`` property declares whether or not that data infrastructure has access to Internet. Depending on this,
-the **data transfer** objects can adopt different data transfer strategies. As for HPC infrastructure,
+. ``internet_access`` property declares whether or not that data infrastructure has access to Internet. Depending on this,
+the **data transfer** objects can adopt different data transfer strategies. Alike the HPC infrastructure,
 the ``retrieve_credentials_from_vault`` relationship can be established to use a declared **Vault** instance for
 retrieving the user's credentials for accessing this infrastructure.
 
@@ -380,7 +406,7 @@ Next example, from Covid 19 app, declares a data object of ``croupier.nodes.WebD
 For Web data sources the property ``resource`` declares the route to the data within the infrastructure it is located,
 which is declared with the ``ds_located_at`` relationship.
 
-Next example, from Covid 19 app, declares a data object of ``croupier.nodes.WebDataSource`` kind.
+Next example, from Covid 19 app, declares a data object of ``croupier.nodes.FileDataSource`` kind.
 
 .. code-block:: yaml
 
@@ -392,8 +418,8 @@ Next example, from Covid 19 app, declares a data object of ``croupier.nodes.WebD
             - type: ds_located_at
               target: hpc_data_access_infra
 
-For File data sources the property ``filepath`` declares the path to the data within the
-filesystem of the infrastructure it is located.
+For File data sources, the property ``filepath`` declares the path where the data is located within the
+filesystem of the hosting infrastructure.
 
 Data transfer objects declare objects that transfer the data located in their ``from_source`` relationship
 into the data source target declared in their ``to_target`` relationship, by using the data transfer protocol
@@ -411,8 +437,10 @@ specified in the property ``transfer_protocol``
             - type: to_target
               target: data_small
 
-Application installation
-------------------------
+Application installation (Rol: application provider)
+----------------------------------------------------
+**Frontend**: Cloudify Web UI: http://cloudify.croupier.ari-aidata.eu/
+
 The application provider can deploy an application into Croupier, by taking
 the following procedure:
 
@@ -446,53 +474,77 @@ by following a procedure that consists of two steps:
 - The application's instance is executed in the target infrastructure(s)
 
 
-Application instance deployment
--------------------------------
-A consumer browse the list of available applications in the Cloudify list of blueprints.
-To deploy a consumer's instance of the blueprint, the consumer takes the following
+Application instance deployment (Rol: application consumer)
+-----------------------------------------------------------
+**Frontend**: Croupier Web UI: http://frontend.croupier.ari-aidata.eu/
+
+An application consumer can browse the list of available applications in the Croupier Web UI.
+For that, open the leftmost option bar (open it by clicking on the icon on the left of the Croupier
+Portal header), and select Applications. Then, available applications will be
+displayed in the page.
+
+.. image:: ../../../_static/figures/frontend_available_applications.png
+   :width: 1200
+   :align: center
+
+
+To deploy a consumer's instance of an application, the consumer takes the following
 procedure:
 
-- Click on the button with the rocket icon located at the leftmost side of the row of the selected application in the list of blueprints.
+- Click on the icon of the selected application. Then, Croupier Web will show a page showing the application details. This page includes three tabs (i.e. Basic configuration, Expert configuration and Upload file) to provide inputs for the application instance that will be created. In this example, we use an external inputs file, so select the Upload file tab
 
-.. image:: ../../../_static/figures/cloudify_deploy_blueprint.png
-   :width: 250
+.. image:: ../../../_static/figures/frontend_deploy_application.png
+   :width: 1200
    :align: center
 
-- In the Blueprint deployment wizard, give a ``deployment name``, and optionally, a unique, human-meaningful ``deployment-id``
-- Next, provide values for the application's inputs. This can be done either by direct editing in the form, or by reading them from a ``inputs.yaml`` that is selected from the consumer's file system, by clicking on the **Load Values** button. Loaded inputs' values can be latter edited in this form, before it is submitted.
-- Once the application inputs' values are provided, click on the **Deploy and Install** button. In the next wizard, click on the **Execute** button.
+- Click on the ``Choose file`` button. Browse your file system and select your application inputs file.
+- Next, you can verify the loaded inputs by selecting the ``Expert configuration`` tab. Verify the loaded inputs, complete or modify them, if needed. Provide a name to your application instance.
 
-.. image:: ../../../_static/figures/cloudify_deploy_blueprint_wizard.png
-   :width: 600
+.. image:: ../../../_static/figures/frontend_application_inputs.png
+   :width: 1200
    :align: center
+
+- Once the application inputs' values are provided, click on the **Save button** button to create the instance.
 
 An example of ``inputs.yaml`` file for our Covid19 application is given below:
 
   .. code-block:: yaml
-
-    # VAULT
-    vault_token: 's.jaH92wPSyAPszvTro3qj4Y5C'
-    vault_user: 'yosu'
 
     # WORKFLOW
     # HPC infrastructures
     # HPC
     hpc_host: mn1.bsc.es
     hpc_scheduler: PYCOMPSS
+    hpc_scheduler_modules:
+      - export COMPSS_PYTHON_VERSION=3
+      - module load COMPSs/3.0
+      - module load singularity/3.5.2
+      - module use /apps/modules/modulefiles/tools/COMPSs/libraries
+      - module load permedcoe
+    monitor_scheduler: SLURM
 
     # COVID19 args
+    job_pre_script:
+      -
     covid19_args:
-      metadata: '${dataset}metadata_clean.tsv'
-      model_prefix: '${dataset}epithelial_cell_2'
+      metadata: '${dataset}/metadata_clean.tsv'
+      model_prefix: '${dataset}/epithelial_cell_2'
       outdir: '$(pwd)/results/'
       ko_file: '$(pwd)/ko_file.txt'
       reps: 2
       model: 'epithelial_cell_2'
       data_folder: '${dataset}'
+      simulation_time: 100
 
     # PYCOMPSs args
-    num_nodes: 2
-    exec_time: 45
+    pycompss_args:
+      num_nodes: 2
+      exec_time: 45
+      log_level: 'off'
+      graph: true
+      tracing: 'false'
+      python_interpreter: python3
+      qos: debug
 
     # DATAFLOW
     hpc_dai_host: dt01.bsc.es
@@ -508,54 +560,40 @@ its scheduler. Then, the consumer's required inputs for the Covid19 application
 are also given, together with few PyCOMPSs execution parameters, which must be
 tuned according to the size of the Covid19 application inputs. Moreover, the data access infrastructures
 involved in this application dataflow are also provided.
-The consumer also provides the Vault secret token required to recover her credentials to get access to
-the target HPC infrastructure.
-**Disclaimer**: In next Croupier release, that will
-integrate its frontend, the Vault token will be injected by the frontend, after
-the user logs in through the KeyCloak SSO portal.
 
-When the application deployment starts, Cloudify shows the deployment details page.
-Once the deploy is complete, you will see a workflow graph with all nodes in green
-(successful deployment) or one in red (failed deployment).
+When the application deployment starts, shows the application instance page.
+This page gives details about the instance, including associated inputs, in the ``Details`` tab.
+The ``Logs`` tab shows the logs of last executions.
+The ``Executions`` tab shows the list of executions.
 
-.. image:: ../../../_static/figures/cloudify_deployment_success.png
+.. image:: ../../../_static/figures/frontend_application_instance.png
    :width: 1000
    :align: center
-
-.. image:: ../../../_static/figures/cloudify_deployment_failed.png
-   :width: 1000
-   :align: center
-
-If the deployment fails, the Croupier administrator can inspect the logs, below
-in the same web page, to analyse the causes.
-
-**Note:** The workflow graph is application specific and does not reflect the
-application deployment topology described above by the provider. This graph is
-intended to be interpreted by the Cloudify/Croupier administrator.
 
 Application instance execution
 ------------------------------
 Once a consumer's instance of the application has been deployed into the target HPC
-infrastructures, can be executed, by taking the following procedure:
+infrastructures, it can be executed.
 
-- Click on **Execute workflow** button, and select **Croupier/run_jobs**. Then, the workflow execution will be triggered
+To start a new execution, click on ``Execute`` button located at the bottom of the ``Details`` tab.
 
-.. image:: ../../../_static/figures/croupier_run_jobs.png
-   :width: 200
-   :align: center
+To see execution logs, click on the ``Logs`` tab. You can browse the logs
+by moving through the pages, filter the logs by type, by event type, and log level.
+You can refresh the logs page to fetch new ones.
 
-Once the workflow has been started, the status can be monitored with the logs located in the **Deployment Events/Logs** panel at the botton of the web page.
-
-.. image:: ../../../_static/figures/croupier_execution_logs.png
+.. image:: ../../../_static/figures/frontend_application_execution_logs.png
    :width: 1000
    :align: center
 
-When the workflow completes, the status (either failed or succeeded) is reported
+To see the list of the instance executions, click on the ``Executions`` tab.
+For each execution, timing, termination status, and the occurrence of errors is reported.
 
-.. image:: ../../../_static/figures/croupier_execution_result.png
-   :width: 300
+.. image:: ../../../_static/figures/frontend_application_execution_list.png
+   :width: 1000
    :align: center
 
+As a summary, the frontend dashboard (accessible from the leftmost option panel) shows all deployend instances (for any application) and the executions
 
-**Disclaimer:** The procedure described above to deploy and execute an
-application by the consumer will be automated by Croupier frontend in next release.
+.. image:: ../../../_static/figures/frontend_dashboard.png
+   :width: 1000
+   :align: center
