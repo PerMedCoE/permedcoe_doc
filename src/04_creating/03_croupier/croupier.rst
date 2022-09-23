@@ -42,7 +42,7 @@ https://github.com/ari-apc-lab/k8s-resources/tree/permedcoe/helm-charts
 
 
 Croupier plugin installation
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To install Croupier plugin, you need a Croupier Wagon file, compiled for CentOS.
 Contact Croupier administrator (jesus.gorronogoitia@atos.net) for the latest
 Croupier wheel and the ``plugin.yaml`` descriptor. Next, log into Cloudify
@@ -438,7 +438,7 @@ specified in the property ``transfer_protocol``
               target: data_small
 
 Application installation (Rol: application provider)
--------------------------------------------------
+----------------------------------------------------
 **Frontend**: Cloudify Web UI: http://cloudify.croupier.ari-aidata.eu/
 
 The application provider can deploy an application into Croupier, by taking
