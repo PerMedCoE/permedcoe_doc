@@ -39,7 +39,6 @@ $ ./build.sh
 $ make.bat
 ```
 
-
 ### Cleanup
 
 Execute the `clean.sh` script in order to clean the documemtation folder.
@@ -51,3 +50,7 @@ $ ./clean.sh
 ## Contact
 
 <https://permedcoe.eu/contact/>
+
+This software has been developed for the [PerMedCoE project](https://permedcoe.eu/), funded by the European Commission (EU H2020 [951773](https://cordis.europa.eu/project/id/951773)).
+
+![](https://permedcoe.eu/wp-content/uploads/2020/11/logo_1.png "PerMedCoE")
