@@ -96,7 +96,7 @@ numfig_format = {'figure':'Figure %s',
                  'section':'Section %s'}
 html_logo = "../_static/logo_1.png"
 html_show_sourcelink = False
-
+html_favicon = "../_static/logo_1.ico"
 
 # True to prefix each section label with the name of the document it is in,
 # followed by a colon.
