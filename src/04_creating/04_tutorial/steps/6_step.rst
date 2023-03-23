@@ -11,7 +11,7 @@ and we already have a template for each workflow manager:
 
     There is only one file that requires attention (**app.py**):
 
-    .. code-block:: CONSOLE
+    .. code-block:: console
 
         $ cd my_application/PyCOMPSs/
 
@@ -23,7 +23,7 @@ and we already have a template for each workflow manager:
         It is necessary to import the building block (in the template
         ``my_building_block``) methods:
 
-        .. code-block:: PYTHON
+        .. code-block:: python
 
             # Import building block entry points
             from my_building_block import invoke
@@ -45,7 +45,7 @@ and we already have a template for each workflow manager:
 
             The ``my_application`` already uses ``my_building_block``.
 
-            .. code-block:: PYTHON
+            .. code-block:: python
 
                 def main():
                     # Sample application:
@@ -57,12 +57,8 @@ and we already have a template for each workflow manager:
                     # Building Block invocation
                     building_block_task(input_file=input_file,
                                         output_file=output_file)
-                    # Alternative Building Block invocation (uning invoke method)
-                    # invoke(input_file,
-                    #        output_file)
 
-            *NOTE:* That the parameters match the ``building_block_task``
-            function definition (and the alternative using ``invoke`` as well).
+            *NOTE:* That the parameters match the ``building_block_task`` function definition.
 
 
 
@@ -71,11 +67,68 @@ and we already have a template for each workflow manager:
     :title: bg-primary text-white font-weight-bold
     :animate: fade-in
 
-    To be completed...
+    Now its time to add logic to the SnakeMake application template.
+    To this end, you can use your desired text editor or Python IDE.
+
+    There is only one file that requires attention (**Snakefile**):
+
+    .. code-block:: console
+
+        $ cd my_application/SnakeMake/
+
+        # Edit: Snakefile
+
+    In this file, it is necessary to declare the building blocks as rules and implement their dependencies.
+    The next code snippet shows an example using `my_bulding_block`:
+
+    .. code-block:: console
+
+        rule BUILDINGBLOCK:
+        input:
+            dataset="/path/to/dataset",
+            config="/path/to/conf.yaml"
+        output:
+            result="/path/to/result"
+        shell:
+            "permedcoe execute building_block my_building_block --model {input.dataset} --result {output.result} --config {input.config}"
+
 
 .. dropdown:: NextFlow
     :container: + shadow
     :title: bg-primary text-white font-weight-bold
     :animate: fade-in
 
-    To be completed...
+    Now its time to add logic to the NextFlow application template.
+    To this end, you can use your desired text editor or Python IDE.
+
+    There is only one file that requires attention (**NextFlow**):
+
+    .. code-block:: console
+
+        $ cd my_application/NextFlow/
+
+        # Edit: NextFlow.nf
+
+    In this file, it is necessary to declare the building blocks as rules and implement their dependencies.
+    The next code snippet shows an example using `my_bulding_block`:
+
+    .. code-block:: console
+
+        params.input="/path/to/dataset"
+        params.config="/path/to/conf.yaml"
+
+        input_ch = Channel.fromPath(params.input)
+        conf_ch = Channel.fromPath(params.config)
+
+        process BUILDINGBLOCK {
+            input:
+            file dataset from input_ch
+            file conf from conf_ch
+
+            output:
+            file "output" into res_ch
+
+            """
+            permedcoe execute building_block my_building_block --model $dataset --result output --config $conf
+            """
+        }

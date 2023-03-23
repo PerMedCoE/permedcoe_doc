@@ -9,16 +9,15 @@ multiple workflow managers:
 
     .. CAUTION::
 
-        It is necessary to have installed the PyCOMPSs in order to test
-        the application.
+        It is necessary to have installed PyCOMPSs in order to test the application.
 
         Please, check the `PyCOMPSs installation manual <https://pycompss.readthedocs.io/en/stable/Sections/00_Quickstart.html#install-compss>`_
 
-    There is a ready to use script (``launch.sh``) in order to execute the
-    application:
+    There is a ready to use script (``launch.sh``) in order to execute the application:
 
     .. code-block:: CONSOLE
 
+        $ cd my_application/PyCOMPSs
         $ ./launch.sh hi.txt bye2.txt
 
         ------------------------------------------
@@ -38,9 +37,9 @@ multiple workflow managers:
         [BINDING-COMMONS] - @JNI_On - Obtaining Runtime classes
         Loading LoggerManager
         [BINDING-COMMONS] - @JNI_On - Creating runtime object
-        [(505)    API]  -  Deploying COMPSs Runtime v2.10 (build 20211116-1330.rde5ead23c301ea6b812c4191cd3976fb0850df7f)
+        [(505)    API]  -  Deploying COMPSs Runtime v3.1
         [BINDING-COMMONS] - @JNI_On - Calling runtime start
-        [(506)    API]  -  Starting COMPSs Runtime v2.10 (build 20211116-1330.rde5ead23c301ea6b812c4191cd3976fb0850df7f)
+        [(506)    API]  -  Starting COMPSs Runtime v3.1
         [(506)    API]  -  Initializing components
         [(880)    API]  -  Ready to process tasks
         [BINDING-COMMONS] - @Init JNI Types
@@ -213,11 +212,29 @@ multiple workflow managers:
     :title: bg-primary text-white font-weight-bold
     :animate: fade-in
 
-    To be completed...
+    .. CAUTION::
+
+        It is necessary to have installed Snakemake in order to test the application.
+
+    There is a ready to use script (``launch.sh``) in order to execute the application:
+
+    .. code-block:: CONSOLE
+
+        $ cd my_application/SnakeMake
+        $ ./launch.sh
 
 .. dropdown:: NextFlow
     :container: + shadow
     :title: bg-primary text-white font-weight-bold
     :animate: fade-in
 
-    To be completed...
+    .. CAUTION::
+
+        It is necessary to have installed NextFlow in order to test the application.
+
+    There is a ready to use script (``launch.sh``) in order to execute the application:
+
+    .. code-block:: CONSOLE
+
+        $ cd my_application/NextFlow
+        $ ./launch.sh

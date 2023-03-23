@@ -25,17 +25,24 @@ with all scripts and base code to start developing your Building Block.
 
     .. code-block:: console
 
+        Creating Building Block template
         ------------------------------------------
         To be completed:
 
-        - main.py:(15):	TODO: Define your container
-        - main.py:(29):	TODO: (optional) Pure python code calling to PyCOMPSs tasks (that can be defined in this file or in another).
-        - main.py:(33):	TODO: Define the binary to be used.
-        - main.py:(34):	TODO: Define the inputs and output parameters.
-        - main.py:(35):	TODO: Define a representative task name
-        - main.py:(37):	TODO: Define the binary parameters
-        - main.py:(54):	TODO: Declare how to run the binary specification (convert config into building_block_task call)
+        - definitions.py:(11):	TODO: Define your container.
+        - main.py:(35):	TODO: (optional) Pure python code calling to PyCOMPSs tasks (that can be defined in this file or in another).
+        - main.py:(39):	TODO: Define the binary to be used (can be within my_building_block_ASSETS_PATH (e.g. my_binary.sh)).
+        - main.py:(40):	TODO: Define the inputs and output parameters.
+        - main.py:(41):	TODO: Define a representative task name.
+        - main.py:(42):	TODO: Define the binary parameters.
+        - main.py:(43):	TODO: Define the binary parameters.
+        - main.py:(44):	TODO: Define the binary parameters.
+        - main.py:(45):	TODO: Add tmpdir=TMPDIR if the tmpdir will be used by the asset script.
+        - main.py:(71):	TODO: Define the arguments required by the Building Block in definition.json file.
+        - main.py:(73):	TODO: Declare how to run the binary specification (convert config into building_block_task call).
+        - __main__.py:(13):	TODO: Add require_tmpdir=True if the asset requires to write within the tmpdir.
         ------------------------------------------
+
 
 
 Package structure
@@ -48,51 +55,68 @@ The package contains the following scripts:
     .
     ├── build.sh
     ├── clean.sh
-    ├── install_editable.sh
+    ├── container
+    │   ├── create_container.sh
+    │   └── sample.def
+    ├── install_sc.sh
     ├── install.sh
-    ├── LICENSE
     ├── pyproject.toml
     ├── README.md
     ├── setup.cfg
     ├── setup.py
     ├── src
     │   └── my_building_block
+    │       ├── assets
+    │       │   └── my_binary.sh
+    │       ├── definition.json
+    │       ├── definitions.py
     │       ├── __init__.py
     │       ├── __main__.py
-    │       ├── main.py
+    │       └── main.py
     └── uninstall.sh
 
-+------------------------------------+--------------------------------------------+
-| **File name**                      | **Description**                            |
-+------------------------------------+--------------------------------------------+
-| setup.cfg                          | Package configuration (Pypi metadata)      |
-+------------------------------------+--------------------------------------------+
-| pyproject.toml                     | Building requirements                      |
-+------------------------------------+--------------------------------------------+
-| install.sh                         | Manual installation script                 |
-+------------------------------------+--------------------------------------------+
-| build.sh                           | Script that builds the package             |
-+------------------------------------+--------------------------------------------+
-| setup.py                           | Package setup                              |
-+------------------------------------+--------------------------------------------+
-| clean.sh                           | Script that cleans build files             |
-+------------------------------------+--------------------------------------------+
-| README.md                          | Package description                        |
-+------------------------------------+--------------------------------------------+
-| LICENSE                            | Package license                            |
-+------------------------------------+--------------------------------------------+
-| install_editable.sh                | Installation within the same folder script |
-+------------------------------------+--------------------------------------------+
-| src/my_building_block/             | Folder that contains the building block    |
-+------------------------------------+--------------------------------------------+
-| src/my_building_block/__init__.py  | Package import resolver                    |
-+------------------------------------+--------------------------------------------+
-| src/my_building_block/main.py      | **Building block main file**               |
-+------------------------------------+--------------------------------------------+
-| src/my_building_block/__main__.py  | Building block invocation file             |
-+------------------------------------+--------------------------------------------+
-| uninstall.sh                       | Uninstall script                           |
-+------------------------------------+--------------------------------------------+
+
++-------------------------------------------+----------------------------------------------------------+
+| **File name**                             | **Description**                                          |
++-------------------------------------------+----------------------------------------------------------+
+| build.sh                                  | Script that builds the package                           |
++-------------------------------------------+----------------------------------------------------------+
+| clean.sh                                  | Script that cleans build files                           |
++-------------------------------------------+----------------------------------------------------------+
+| container/create_container.sh             | Script that builds the container defined in `sample.def` |
++-------------------------------------------+----------------------------------------------------------+
+| container/sample.def                      | Container definition file                                |
++-------------------------------------------+----------------------------------------------------------+
+| install_sc.sh                             | Manual installation script for supercomputer             |
++-------------------------------------------+----------------------------------------------------------+
+| install.sh                                | Manual installation script                               |
++-------------------------------------------+----------------------------------------------------------+
+| pyproject.toml                            | Building requirements                                    |
++-------------------------------------------+----------------------------------------------------------+
+| README.md                                 | Package description                                      |
++-------------------------------------------+----------------------------------------------------------+
+| setup.cfg                                 | Package configuration (Pypi metadata)                    |
++-------------------------------------------+----------------------------------------------------------+
+| setup.py                                  | Package setup                                            |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/                    | Folder that contains the building block                  |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/assets/             | Folder that contains the building block assets           |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/assets/my_binary.sh | Asset script example                                     |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/definition.json     | Building Block parameters definition file                |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/definitions.py      | Building Block global definitions                        |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/__init__.py         | Package import resolver                                  |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/__main__.py         | Building block invocation file                           |
++-------------------------------------------+----------------------------------------------------------+
+| src/my_building_block/main.py             | **Building block main file**                             |
++-------------------------------------------+----------------------------------------------------------+
+| uninstall.sh                              | Uninstall script                                         |
++-------------------------------------------+----------------------------------------------------------+
 
 
 Building Block structure
@@ -100,86 +124,113 @@ Building Block structure
 
 There are a set of rules to implement a PerMedCoE compliant Building Block:
 
-- Provide a executable Python script with the following structure:
+- Complete `definition.json` file with the Building Block required parameters.
+  - Declare inputs and outputs.
+- Complete `definitions.py` with the appropriate container file name.
+  - Define the container/s within `definitions.py` file (`CONTAINER` variable).
+- Provide a Python script `main.py` with the following structure and adapt to your needs (check all `TODO` marked lines):
 
-  .. code-block:: python
+  - Sample `main.py`:
 
-    from permedcoe import container        # To define container related needs
-    from permedcoe import binary           # To define binary to execute related needs
-    from permedcoe import task             # To define task related needs
+    .. code-block:: python
 
-    from permedcoe import FILE_IN          # To define file type and direction
-    from permedcoe import FILE_OUT         # To define file type and direction
-    from permedcoe import DIRECTORY_IN     # To define directory type and direction
-    from permedcoe import DIRECTORY_OUT    # To define directory type and direction
+        # Decorator imports
+        from permedcoe import constraint       # To define constraints needs (e.g. number of cores)
+        from permedcoe import container        # To define container related needs
+        from permedcoe import binary           # To define binary to execute related needs
+        from permedcoe import mpi              # To define an mpi binary to execute related needs (can not be used with @binary)
+        from permedcoe import task             # To define task related needs
+        # @task supported types
+        from permedcoe import FILE_IN          # To define file type and direction
+        from permedcoe import FILE_OUT         # To define file type and direction
+        from permedcoe import FILE_INOUT       # To define file type and direction
+        from permedcoe import DIRECTORY_IN     # To define directory type and direction
+        from permedcoe import DIRECTORY_OUT    # To define directory type and direction
+        from permedcoe import DIRECTORY_INOUT  # To define directory type and direction
+        # Other permedcoe available functionalities
+        from permedcoe import Arguments        # Arguments definition
+        from permedcoe import get_environment  # Get variables from invocation (tmpdir, processes, gpus, memory)
+        from permedcoe import TMPDIR           # Default tmpdir key
 
-    from permedcoe import get_environment  # Get variables from invocation (tmpdir, processes, gpus, memory)
+        # Import single container and assets definitions
+        from NEW_NAME.definitions import NEW_NAME_ASSETS_PATH  # binary could be in this folder
+        from NEW_NAME.definitions import NEW_NAME_CONTAINER
+        from NEW_NAME.definitions import COMPUTING_UNITS
 
+        def function_name(*args, **kwargs):
+            """Extended python interface:
+            To be used only with PyCOMPSs - Enables to define a workflow within the building block.
+            Tasks are not forced to be binaries: PyCOMPSs supports tasks that are pure python code.
 
-    # Single and global container definition for this building block
-    SAMPLE_CONTAINER = "/path/to/image.sif"  # TODO: Define your container
+            # PyCOMPSs help: https://pycompss.readthedocs.io/en/latest/Sections/02_App_Development/02_Python.html
 
+            Requirement: all tasks should be executed in a container (with the same container definition)
+                         to ensure that they all have the same requirements.
+            """
+            print("Building Block entry point to be used with PyCOMPSs")
+            # TODO: (optional) Pure python code calling to PyCOMPSs tasks (that can be defined in this file or in another).
 
-    def function_name(*args, **kwargs):
-        """ Extended python interface:
-        To be used only with PyCOMPSs - Enables to define a workflow within the building block.
-        tasks are not forced to be binaries: PyCOMPSs supports tasks that are pure python code.
+        @container(engine="SINGULARITY", image=NEW_NAME_CONTAINER)
+        @binary(binary="cp")                                        # TODO: Define the binary to be used (can be within NEW_NAME_ASSETS_PATH (e.g. my_binary.sh)).
+        @task(input_file=FILE_IN, output_file=FILE_OUT)             # TODO: Define the inputs and output parameters.
+        def building_block_task(                                    # TODO: Define a representative task name.
+            input_file=None,                                        # TODO: Define the binary parameters.
+            output_file=None,                                       # TODO: Define the binary parameters.
+            verbose="-v"):                                          # TODO: Define the binary parameters.
+            # TODO: Add tmpdir=TMPDIR if the tmpdir will be used by the asset script.
+            """Summary.
 
-        # PyCOMPSs help: https://pycompss.readthedocs.io/en/latest/Sections/02_App_Development/02_Python.html
+            The Definition is equal to:
+               cp <input_file> <output_file> -v
+            Empty function since it represents a binary execution:
 
-        Requirement: all tasks should be executed in a container (with the same container definition)
-                    to ensure that they all have the same requirements.
-        """
-        print("Building Block entry point to be used with PyCOMPSs")
-        # TODO: (optional) Pure python code calling to PyCOMPSs tasks (that can be defined in this file or in another).
+            :param input_file: Input file description, defaults to None
+            :type input_file: str, optional
+            :param verbose: Verbose description, defaults to "-v"
+            :type verbose: str, optional
+            # :param tmpdir: Temporary directory, defaults to TMPDIR
+            # :type tmpdir: str, optional
+            """
+            pass
 
+        def invoke(arguments, config):
+            """Common interface.
 
-    @container(engine="SINGULARITY", image=SAMPLE_CONTAINER)
-    @binary(binary="/path/to/my_binary")                      # TODO: Define the binary to be used.
-    @task(dataset=FILE_IN, output=FILE_OUT)                   # TODO: Define the inputs and output parameters.
-    def building_block_task(dataset_flag="-d", dataset=None,  # TODO: Define a representative task name
-                            output_flag="-o", output=None,
-                            operation="-x"):                  # TODO: Define the binary parameters
-        # The Definition is equal to:
-        #    /path/to/my_binary -d dataset -o output -x
-        # Empty function since it represents a binary execution:
-        pass
+            Args:
+                arguments (args): Building Block parsed arguments.
+                config (dict): Configuration dictionary.
+            Returns:
+                None
+            """
+            # TODO: Define the arguments required by the Building Block in definition.json file.
 
+            # TODO: Declare how to run the binary specification (convert config into building_block_task call).
+            # Sample config parameter get:
+            #     operation = config["operation"]
+            # Then operation can be used to tune the building_block_task parameters or even be a parameter.
+            # Sample permedcoe environment get:
+            #     env_vars = get_environment()
+            # Retrieves the extra flags from permedcoe.
+            input_file = arguments.model
+            output_file = arguments.result
+            # tmpdir = arguments.tmpdir
+            building_block_task(input_file=input_file,
+                                output_file=output_file)
+                                # tmpdir=tmpdir)
 
-    def invoke(input, output, config):
-        """ Common interface.
+  - Use the decorators provided by `permedcoe` package. They provide the capability to use the BB in various workflow managers transparently. In other words, the BB developer does not have to deal with the peculiarities of the workflow managers.
 
-        Args:
-            input (str): Input file path.
-            output (str): Output directory path.
-            config (dict): Configuration dictionary.
-        Returns:
-            None
-        """
-        # TODO: Declare how to run the binary specification (convert config into building_block_task call)
-        operation = config["operation"]
-        # env_vars = get_environment()  # NOSONAR - Retrieves the extra flags.
-        building_block_task(dataset=input,
-                            output=output,
-                            operation=operation)
+  - A BB can be a single executable, but it can be a more complex code if the `NEW_NAME_extended` function is implemented and used with PyCOMPSs.
 
+  - It is necessary to have function (`invoke`) with a specific signature: `(arguments, config)`.
 
-- Use a single container per Building Block (``SAMPLE_CONTAINER``).
+  - The `invoke` function provides the command line interface for the BB as shown in the [usage](#usage) section. In addition, it parses the Yaml config file and invokes the `NEW_NAME` function with the appropriate parameters.
 
-- Use the decorators provided by ``permedcoe`` package.
-  They provide the capability to use the BB in various workflow managers transparently.
-  In other words, the BB developer does not have to deal with the peculiarities of the workflow managers.
+  - The BB `binary` must be defined with the `@task`, `@binary` and `@container` decorators (`NEW_NAME_task`). This function needs to declare the binary flags, and it is invoked from the `NEW_NAME` function.
 
-- A BB can be a single executable, but it can be a more complex code if the ``my_building_block_extended`` function is implemented and used with PyCOMPSs.
+  - The `@task` decorator must declare the type of the file or directories for the binary invocation. In particular, using the parameter name and `FILE_IN`/`FILE_OUT`/`DIRECTORY_IN`/`DIRECTORY_OUT` to define if the parameter is a file or a directory and if the binary is consuming the file/directory or it is producing it.
 
-- It is necessary to have an ``invoke`` function with a specific signature: ``def invoke(input, output, config)``-
-
-- The BB ``binary`` must be defined with the ``@task``, ``@binary`` and ``@container`` decorators (``my_building_block_task``).
-  This function needs to declare the binary flags, and it is invoked from the ``invoke`` function.
-
-- The ``@task`` decorator must declare the type of the file or directories for the binary invocation.
-  In particular, using the parameter name and ``FILE_IN``/``FILE_OUT``/``DIRECTORY_IN``/``DIRECTORY_OUT``
-  to define if the parameter is a file or a directory and if the binary is consuming the file/directory or it is producing it.
+  - Uncomment `tmpdir` variable if the binary uses an asset that requires to writting permissions. So the asset writes in a controlled temporary directory. Don't forget to set `require_tmpdir=True` in `__main__.py` within the `invoker` call.
 
 
 Deployment
@@ -220,11 +271,6 @@ The package provides two ways to install this package (from Pypi and manually):
     ./install.sh
 
 
-  .. TIP::
-
-    This script creates a file ``installation_files.txt`` to keep track of the installed files.
-    It is used with the ``uninstall.sh`` script to clean up the system.
-
 Usage
 ~~~~~
 
@@ -239,28 +285,28 @@ The ``my_building_block`` package provides a clear interface that allows it to b
   .. code-block:: console
 
     $ my_building_block -h
-    usage: my_building_block [-h] [-i INPUT [INPUT ...]] [-o OUTPUT [OUTPUT ...]] [-c CONFIG] [-d]
-                    [-l {debug,info,warning,error,critical}] [--tmpdir TMPDIR] [--processes PROCESSES]
-                    [--gpus GPUS] [--memory MEMORY] [--mount_points MOUNT_POINTS]
+    usage: my_building_block [-h] --model MODEL --result RESULT [-c CONFIG] [-d] [-l {debug,info,warning,error,critical}] [--tmpdir TMPDIR] [--processes PROCESSES] [--gpus GPUS] [--memory MEMORY]
+                         [--mount_points MOUNT_POINTS]
 
-    optional arguments:
-        -h, --help            show this help message and exit
-        -i INPUT [INPUT ...], --input INPUT [INPUT ...]
-                            Input file/s or directory path/s
-        -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
-                            Output file/s or directory path/s
-        -c CONFIG, --config CONFIG
-                            Configuration file path
-        -d, --debug           Enable Building Block debug mode. Overrides log_level
-        -l {debug,info,warning,error,critical}, --log_level {debug,info,warning,error,critical}
+    my_building_block Building Block short description. Give more details about the Building Block.
+
+    options:
+      -h, --help            show this help message and exit
+      --model MODEL         (INPUT - str (file)) Input file (model)
+      --result RESULT       (OUTPUT - str) Result file
+      -c CONFIG, --config CONFIG
+                            (CONFIG) Configuration file path
+      -d, --debug           Enable Building Block debug mode. Overrides log_level
+      -l {debug,info,warning,error,critical}, --log_level {debug,info,warning,error,critical}
                             Set logging level
-        --tmpdir TMPDIR       Temp directory to be mounted in the container
-        --processes PROCESSES
+      --tmpdir TMPDIR       Temp directory to be mounted in the container
+      --processes PROCESSES
                             Number of processes for MPI executions
-        --gpus GPUS           Requirements for GPU jobs
-        --memory MEMORY       Memory requirement
-        --mount_points MOUNT_POINTS
+      --gpus GPUS           Requirements for GPU jobs
+      --memory MEMORY       Memory requirement
+      --mount_points MOUNT_POINTS
                             Comma separated alias:folder to be mounted in the container
+
 
   This interface can be used within any workflow manager that requires binaries (e.g. NextFlow and Snakemake).
 
@@ -270,9 +316,8 @@ The ``my_building_block`` package provides a clear interface that allows it to b
 
     from my_building_block import building_block_task
 
-    building_block_task(dataset_flag="-d", dataset=None,
-                        output_flag="-o", output=None,
-                        operation="-x")
+    building_block_task(input=None,
+                        output=None)
 
 - Extension for PyCOMPSs:
 
