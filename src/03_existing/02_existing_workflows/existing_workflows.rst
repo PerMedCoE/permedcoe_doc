@@ -42,7 +42,7 @@ The workflow uses the following building blocks, described in order of execution
 
 For details on individual workflow steps, see the user documentation for each building block.
 
-`GitHub repository <https://github.com/PerMedCoE/covid-19-workflow>`_
+`GitHub repository <https://github.com/PerMedCoE/covid-19-workflow>`__
 
 
 Drug Synergies Screening
@@ -58,7 +58,7 @@ The workflow uses the following building blocks, described in order of execution
 4. Print drug results
 
 For details on individual workflow steps, see the user documentation for each building block.
-`GitHub repository <https://github.com/PerMedCoE/drug-synergies-workflow>`_
+`GitHub repository <https://github.com/PerMedCoE/drug-synergies-workflow>`__
 
 
 Single drug prediction
@@ -69,7 +69,7 @@ Complementarily, the workflow supports single drug response predictions to provi
 The workflow uses the following building blocks in order of execution (for training a model):
 
 1. Carnival_gex_preprocess
-    - Preprocessed the basal gene expression data from GDSC. The input is a matrix of Gene x Sample expression data. 
+    - Preprocessed the basal gene expression data from GDSC. The input is a matrix of Gene x Sample expression data.
 2. Progeny
     - Using the preprocessed data, it estimates pathway activities for each column in the data (for each sample). It returns a matrix of Pathways x Samples with activity values for 11 pathways.
 3. Omnipath
@@ -83,4 +83,4 @@ The workflow uses the following building blocks in order of execution (for train
 7. ML Jax Drug Prediction
     - Trains a model using the combined features to predict IC50 values from GDSC.
 
-For details on individual workflow steps, please check the scripts that use each individual building block in the workflow `GitHub repository <https://github.com/PerMedCoE/single_drug_prediction>`_.
+For details on individual workflow steps, please check the scripts that use each individual building block in the workflow `GitHub repository <https://github.com/PerMedCoE/single_drug_prediction>`__.

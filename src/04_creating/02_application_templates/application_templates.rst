@@ -62,6 +62,12 @@ The application contains the following scripts:
 +-------------------------------------+------------------------------------------------------+
 | **File name**                       | **Description**                                      |
 +-------------------------------------+------------------------------------------------------+
+| NextFlow                            | Folder containing the Nextflow application template  |
++-------------------------------------+------------------------------------------------------+
+| NextFlow/launch.sh                  | Launch with Nextflow script                          |
++-------------------------------------+------------------------------------------------------+
+| NextFlow/NextFlow.nf                | Application template for Nextflow                    |
++-------------------------------------+------------------------------------------------------+
 | PyCOMPSs                            | Folder containing the PyCOMPSs application template  |
 +-------------------------------------+------------------------------------------------------+
 | PyCOMPSs/app.py                     | Application template for PyCOMPSs                    |
@@ -75,12 +81,6 @@ The application contains the following scripts:
 | SnakeMake/launch.sh                 | Launch with Snakemake script                         |
 +-------------------------------------+------------------------------------------------------+
 | SnakeMake/Snakefile                 | Application template for Snakemake                   |
-+-------------------------------------+------------------------------------------------------+
-| NextFlow                            | Folder containing the Nextflow application template  |
-+-------------------------------------+------------------------------------------------------+
-| NextFlow/launch.sh                  | Launch with Nextflow script                          |
-+-------------------------------------+------------------------------------------------------+
-| NextFlow/NextFlow.nf                | Application template for Nextflow                    |
 +-------------------------------------+------------------------------------------------------+
 
 The developer responsibility is to complete at least one of the following files:

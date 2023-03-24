@@ -194,3 +194,21 @@ This is the refactored CellNopt in C++ with the ACO solver with OpenMP/MPI suppo
 A description of what CellNopt is and how to use it is available on the [Saez Laboratory website](https://saezlab.github.io/CellNOptR/).
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/CellNOpt>`__
+
+
+Invasion Analysis
+-----------------
+
+This building block extracts quantifications about type of invasion from a physiboss result.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/invasion_analysis>`__
+
+
+PhysiBoSS Invasion
+------------------
+
+This building block is used to perform a multiscale simulation of a population of cells using PhysiBoSS.
+More information on this tool can be found in [Ponce-de-Leon et al. (2022)](https://www.biorxiv.org/content/10.1101/2022.01.06.468363v1)
+and the [PhysiBoSS GitHub repository](https://github.com/PhysiBoSS/PhysiBoSS).
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS_Invasion>`__
