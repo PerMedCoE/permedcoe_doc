@@ -1,3 +1,7 @@
+.. WARNING::
+
+    Feature under testing, so it may be unstable.
+
 Existing Building Blocks can be deployed automatically with the ``permedcoe`` command:
 
 .. code-block:: console
