@@ -212,3 +212,11 @@ More information on this tool can be found in [Ponce-de-Leon et al. (2022)](http
 and the [PhysiBoSS GitHub repository](https://github.com/PhysiBoSS/PhysiBoSS).
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS_Invasion>`__
+
+
+COBREXA
+------------------
+
+TBD
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/COBREXA>`__
