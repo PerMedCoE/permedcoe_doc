@@ -84,3 +84,12 @@ The workflow uses the following building blocks in order of execution (for train
     - Trains a model using the combined features to predict IC50 values from GDSC.
 
 For details on individual workflow steps, please check the scripts that use each individual building block in the workflow `GitHub repository <https://github.com/PerMedCoE/single_drug_prediction>`__.
+
+
+Cancer invasion
+---------------
+
+TBD
+
+For details on individual workflow steps, see the user documentation for each building block.
+`GitHub repository <https://github.com/PerMedCoE/cancer-invasion-workflow>`__
