@@ -1,20 +1,17 @@
-.. WARNING::
-
-    Feature under testing, so it may be unstable.
-
-Existing Building Blocks can be deployed automatically with the ``permedcoe`` command:
+Existing Building Blocks can be deployed automatically with the ``permedcoe`` command
+(provided by the ``permedcoe`` package):
 
 .. code-block:: console
 
     $ export PERMEDCOE_IMAGES=/path/where/to/store/the/containers/
-    $ permedcoe deploy building_block meta_analysis
+    $ permedcoe deploy building_block PhysiBoSS
 
     [It may take a while since it downloads the required container]
 
     ------------------------------------------
     ------------ STDOUT ------------
     Defaulting to user installation because normal site-packages is not writeable
-    Collecting git+https://github.com/PerMedCoE/BuildingBlocks.git@main#subdirectory=meta_analysis
+    Collecting git+https://github.com/PerMedCoE/BuildingBlocks.git@main#subdirectory=PhysiBoSS
       Cloning https://github.com/PerMedCoE/BuildingBlocks.git (to revision main) to /tmp/pip-req-build-zdw3mlse
       Resolved https://github.com/PerMedCoE/BuildingBlocks.git to commit 84071d6665edb4a8ea90249ffb5b8e2f583ff13a
       Installing build dependencies: started
@@ -32,10 +29,18 @@ Existing Building Blocks can be deployed automatically with the ``permedcoe`` co
     ------------------------------------------
 
 
-The result of this command will install the ``meta_analysis`` Building Block
+The result of this command will install the ``PhysiBoSS`` Building Block
 and downloads its required container (stored in ``${PERMEDCOE_IMAGES}`` path).
 
 .. IMPORTANT::
 
     It is recommended to keep a single ``${PERMEDCOE_IMAGES}`` folder where to
     store all Building Block containers.
+
+.. TIP::
+
+  A full list of the available Building Blocks can be found in `Available Building Blocks Section <../01_available_building_blocks/available_building_blocks.html#available-building-blocks>`_.
+
+From this point, the Building Block will be available in the machine, and it
+can be used in two ways: by invoking it directly through command line,
+or using its Python interface. This is further explained in the execution section.
