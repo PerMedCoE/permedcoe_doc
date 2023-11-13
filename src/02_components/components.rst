@@ -20,6 +20,7 @@ definitions and functions to be used for Building Block implementation.
         from permedcoe import binary
         from permedcoe import mpi
         from permedcoe import task
+        from permedcoe import julia
 
 - Parameter type definitions:
 
