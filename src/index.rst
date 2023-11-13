@@ -34,7 +34,8 @@ This documentation is aimed at showing:
     - PyCOMPSs
     - Croupier
 
-  - A step-by-step guide from creating a building block to execute a workflow.
+  - A step-by-step guide from creating a building block to execute a workflow
+  - A step-by-step tutorial for deploying and executing the existing Building Blocks and Workflows
   - A sample application
 
 The current status of the project is **WORK IN PROGRESS**.
@@ -46,14 +47,32 @@ The current status of the project is **WORK IN PROGRESS**.
    - Available workflows:
 
       - Covid 19
+      - Drug Synergies
+      - Single Drug Prediction
+      - Cancer Invasion
 
    - Available Building Blocks:
 
-      - MaBoSS
+      - Build Model from Species
+      - Carnival Gex Preprocess
+      - COBREXA
       - Personalize Patient
-      - Meta-Analysis
+      - Print Drug Results
+      - Carnival
+      - CarnivalPy
+      - Export solver hdf5
+      - MaBoSS
+      - ML Jax Drug Prediction
       - PhysiBoSS
+      - Progeny
       - Single Cell Processing
+      - Carnival Feature Merger
+      - CellNOpt
+      - Invasion Analysis
+      - Meta-Analysis
+      - Omnipath
+      - PhysiBoSS invasion
+      - TF enrichment
 
 
 ..
