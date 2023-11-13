@@ -20,7 +20,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'PerMedCoE Base Package'
-copyright = '2021, PerMedCoE Project'
+copyright = '2023, PerMedCoE Project'
 author = 'PerMedCoE Project'
 
 
