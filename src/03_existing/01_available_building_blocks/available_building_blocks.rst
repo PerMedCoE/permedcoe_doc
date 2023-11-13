@@ -14,8 +14,8 @@ High-throughput Mutant Analysis
 
 This building block uses MaBoSS to screen all the possible knockouts of a given Boolean model.
 It produces a candidate gene list formatted as a text file (single gene per row).
-More information on MaBoSS can be found in [Stoll G. et al. (2017)](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btx123)
-and in the [MaBoSS GitHub repository](https://github.com/maboss-bkmc/MaBoSS-env-2.0).
+More information on MaBoSS can be found in `Stoll G. et al. (2017) <https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btx123>`__
+and in the `MaBoSS GitHub repository <https://github.com/maboss-bkmc/MaBoSS-env-2.0>`__.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/MaBoSS>`__
 
@@ -41,9 +41,9 @@ Personalise Patient
 
 This building block tailors a given MaBoSS Boolean model to a given RNAseq dataset of interest.
 This RNAseq dataset can come from the `Single cell processing` building block and needs to be
-normalised as described in [Béal et al. (2019)](https://www.frontiersin.org/articles/10.3389/fphys.2018.01965/full?field=&journalName=Frontiers_in_Physiology&id=369984)
-and in the [PROFILE GitHub repository](https://github.com/sysbio-curie/PROFILE).
-The `Single-cell Processing` building block performs this normalisation step.
+normalised as described in `Béal et al. (2019) <https://www.frontiersin.org/articles/10.3389/fphys.2018.01965/full?field=&journalName=Frontiers_in_Physiology&id=369984>`__
+and in the `PROFILE GitHub repository <https://github.com/sysbio-curie/PROFILE>`__.
+The ``Single-cell Processing`` building block performs this normalisation step.
 
 Another option of this building block is to personalise a given MaBoSS model using cell line information
 such as mutations, copy number alterations and expression counts.
@@ -55,10 +55,10 @@ PhysiBoSS
 ---------
 
 This building block is used to perform a multiscale simulation of a population of cells using PhysiBoSS.
-The tool uses the different Boolean models personalised by the `Personalise patient` building block and
+The tool uses the different Boolean models personalised by the ``Personalise patient`` building block and
 with the mutants selected by the `High-throughput mutant analysis` building block.
-More information on this tool can be found in [Ponce-de-Leon et al. (2022)](https://www.biorxiv.org/content/10.1101/2022.01.06.468363v1)
-and the [PhysiBoSS GitHub repository](https://github.com/PhysiBoSS/PhysiBoSS).
+More information on this tool can be found in `Ponce-de-Leon et al. (2022) <https://www.biorxiv.org/content/10.1101/2022.01.06.468363v1>`__
+and the `PhysiBoSS GitHub repository <https://github.com/PhysiBoSS/PhysiBoSS>`__.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS>`__
 
@@ -103,7 +103,7 @@ CARNIVAL
 
 The CARNIVAL building block contains the refactored CARNIVAL C++ with the new Ant Colony Optimisation (ACO) in C++
 with support for OpenMP and MPI. The hdf5 file required as an input can be generated with the `Export Solver HDF5` building block.
-For a general overview of what CARNIVAL does, see the [CARNIVAL website](https://saezlab.github.io/CARNIVAL/).
+For a general overview of what CARNIVAL does, see the `CARNIVAL website <https://saezlab.github.io/CARNIVAL/>`__.
 This building block uses the new developed ACO algorithm to find solutions without the need of using ILP solvers.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/Carnival>`__
@@ -132,8 +132,9 @@ with the `JAX Drug Prediction` building block.
 CARNIVAL Gex Preprocess
 -----------------------
 
-This building block processes (reshapes and scales) gene expression data from the [Genomics of Drug Sensitivity in
-Cancer (GDSC) database](https://www.cancerrxgene.org/) for use by other building blocks.
+This building block processes (reshapes and scales) gene expression data from the
+`Genomics of Drug Sensitivity in Cancer (GDSC) database <https://www.cancerrxgene.org/>`__
+for use by other building blocks.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/Carnival_gex_preprocess>`__
 
@@ -141,7 +142,7 @@ Cancer (GDSC) database](https://www.cancerrxgene.org/) for use by other building
 Export Solver HDF5
 ------------------
 
-Exports input data required by [the vanilla version of CARNIVAL](https://saezlab.github.io/CARNIVAL/)
+Exports input data required by `the vanilla version of CARNIVAL <https://saezlab.github.io/CARNIVAL/>`__
 (sif file, measurements and perturbations) into a HDF5 file required by the optimised version of CARNIVAL
 with the parallel ACO C++ solver.
 
@@ -152,8 +153,8 @@ JAX drug prediction
 -------------------
 
 The `JAX Drug Prediction` building block implements a matrix factorisation approach to predict IC50 response values
-of cells with different drugs, with or without side features using JAX. This is a wrapper for [a script hosted on the
-Saez Laboratory GitHub repository](https://github.com/saezlab/permedcoe/blob/master/containers/ml-jax/ml.py).
+of cells with different drugs, with or without side features using JAX. This is a wrapper for
+`a script hosted on the Saez Laboratory GitHub repository <https://github.com/saezlab/permedcoe/blob/master/containers/ml-jax/ml.py>`__.
 This can be used to predict e.g drug responses on cell lines from partial observations of drug/cell responses.
 
 There are two ways of using the building block: for training and for inference (prediction).
@@ -164,7 +165,7 @@ There are two ways of using the building block: for training and for inference (
 OmniPath
 --------
 
-Downloads the [latest OmniPath database](https://omnipathdb.org/) to build an initial PKN network for CARNIVAL.
+Downloads the `latest OmniPath database <https://omnipathdb.org/>`__ to build an initial PKN network for CARNIVAL.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/omnipath>`__
 
@@ -173,7 +174,7 @@ PROGENy
 -------
 
 The `PROGENy` building block uses PROGENy to extract pathway activities from gene expression data.
-Further information on PROGENy can be found on the [Saez Laboratory website](https://saezlab.github.io/progeny/).
+Further information on PROGENy can be found on the `Saez Laboratory website <https://saezlab.github.io/progeny/>`__.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/progeny>`__
 
@@ -181,8 +182,8 @@ Further information on PROGENy can be found on the [Saez Laboratory website](htt
 TF Enrichment
 -------------
 
-The `TF Enrichment` building block uses [DecoupleR](https://saezlab.github.io/decoupleR/) and
-[Dorothea](https://saezlab.github.io/dorothea/) to estimate transcription factor activities from perturbational data.
+The `TF Enrichment` building block uses `DecoupleR <https://saezlab.github.io/decoupleR/>`__ and
+`Dorothea <https://saezlab.github.io/dorothea/>`__ to estimate transcription factor activities from perturbational data.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/tf_enrichment>`__
 
@@ -191,7 +192,7 @@ CellNOpt
 --------
 
 This is the refactored CellNopt in C++ with the ACO solver with OpenMP/MPI support.
-A description of what CellNopt is and how to use it is available on the [Saez Laboratory website](https://saezlab.github.io/CellNOptR/).
+A description of what CellNopt is and how to use it is available on the `Saez Laboratory website <https://saezlab.github.io/CellNOptR/>`__.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/CellNOpt>`__
 
@@ -199,7 +200,7 @@ A description of what CellNopt is and how to use it is available on the [Saez La
 Invasion Analysis
 -----------------
 
-This building block extracts quantifications about type of invasion from a physiboss result.
+This building block extracts quantifications about type of invasion from a PhysiBoSS result.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/invasion_analysis>`__
 
@@ -208,14 +209,14 @@ PhysiBoSS Invasion
 ------------------
 
 This building block is used to perform a multiscale simulation of a population of cells using PhysiBoSS.
-More information on this tool can be found in [Ponce-de-Leon et al. (2022)](https://www.biorxiv.org/content/10.1101/2022.01.06.468363v1)
-and the [PhysiBoSS GitHub repository](https://github.com/PhysiBoSS/PhysiBoSS).
+More information on this tool can be found in `Ponce-de-Leon et al. (2022) <https://www.biorxiv.org/content/10.1101/2022.01.06.468363v1>`__
+and the `PhysiBoSS GitHub repository <https://github.com/PhysiBoSS/PhysiBoSS>`__.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS_Invasion>`__
 
 
 COBREXA
-------------------
+-------
 
 TBD
 
