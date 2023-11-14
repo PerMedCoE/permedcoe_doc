@@ -143,7 +143,7 @@ The job status can be checked with ``squeue``:
 
 .. code-block:: console
 
-    $ squeue 
+    $ squeue
     JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
     30404848      main   COMPSs bscXXYYY  R       1:37      3 s01r1b25,s24r1b[60,63]
 

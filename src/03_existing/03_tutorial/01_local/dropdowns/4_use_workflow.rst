@@ -190,7 +190,7 @@ workflow with each of them is provided in the next drop-down sections:
         Helper script that cleans the current folder after running the workflow. Use with caution since it removes all result files.
 
     src_split and ``b_\*`` scripts
-        The ``src_split`` folder contains the workflow splitted in three parts, so that it can be executed partially or even
+        The ``src_split`` folder contains the workflow split in three parts, so that it can be executed partially or even
         in different machines. Accordingly, the ``b_\*`` scripts are aimed at launching or running each part.
 
     The way to run the workflow (automatically parallelized with PyCOMPSs) is:

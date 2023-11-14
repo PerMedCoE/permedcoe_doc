@@ -24,4 +24,4 @@ as well as downloads their required containers (storing them in ``${PERMEDCOE_IM
     A full list of the available workflows can be found in `Existing Workflows Section <../02_existing_workflows/existing_workflows.html#existing-workflows>`_.
 
 From this point, the Workflow (as well as all its required Building Blocks) will be available in the machine.
-Its usage is explained in the usage section.
+Its usage is explained in the usage `Section <../01_local/local.html#usage>`_.

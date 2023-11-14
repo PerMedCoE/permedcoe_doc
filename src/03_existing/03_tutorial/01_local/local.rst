@@ -31,10 +31,9 @@ Since it is a Python package available in the Pypi repository, it can be easily 
     Alternatively, it is possible to be
     `installed from source <../../01_installation/installation.html#installation-from-source-code>`_
 
-It is also **REQUIRED** to install Singularity and Apptainer (for automatic container download).
+It is also **REQUIRED** to install Apptainer (for automatic container download).
 
-Please, check the `Singularity installation documentation <https://sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps>`__
-and the `Apptainer installation documentation <https://apptainer.org/docs/admin/main/installation.html>`__.
+Please, check the `Apptainer installation documentation <https://apptainer.org/docs/admin/main/installation.html>`__.
 
 
 Deployment

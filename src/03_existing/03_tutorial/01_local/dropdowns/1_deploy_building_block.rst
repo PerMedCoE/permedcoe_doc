@@ -39,8 +39,8 @@ and downloads its required container (stored in ``${PERMEDCOE_IMAGES}`` path).
 
 .. TIP::
 
-  A full list of the available Building Blocks can be found in `Available Building Blocks Section <../01_available_building_blocks/available_building_blocks.html#available-building-blocks>`_.
+    A full list of the available Building Blocks can be found in `Available Building Blocks Section <../01_available_building_blocks/available_building_blocks.html#available-building-blocks>`_.
 
 From this point, the Building Block will be available in the machine, and it
 can be used in two ways: by invoking it directly through command line,
-or using its Python interface. This is further explained in the execution section.
+or using its Python interface. This is further explained in the execution `Section <../01_local/local.html#usage>`_.

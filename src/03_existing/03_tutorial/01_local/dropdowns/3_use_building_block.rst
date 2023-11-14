@@ -1,7 +1,7 @@
 Building Blocks can be used in two ways: from the command line or through their Python interface.
 
 Command line
-    Each Buildind Block provides a command (with the same name as the building block followed by ``_BB``)
+    Each Building Block provides a command (with the same name as the building block followed by ``_BB``)
     that can be launched from the command line. For example, the PhysiBoSS Building block
     (previously deployed) provides the ``PhysiBoSS_BB`` command.
     Its usage details can be checked using the ``--help`` or ``-h`` flag:
