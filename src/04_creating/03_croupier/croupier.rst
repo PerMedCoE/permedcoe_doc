@@ -20,7 +20,7 @@ Croupier's framework
 --------------------
 Croupier framework consist of several interconnected services, namely:
 
-- Cloudify (https://cloudify.co/) is the Cloud workflow engine that hosts HPC-based workflow executions by using Croupier as aplugin.
+- Cloudify (https://cloudify.co/) is the Cloud workflow engine that hosts HPC-based workflow executions by using Croupier as a plugin.
 - Keycloak (https://www.keycloak.org/) is an IAM service that offers a SSO across multiple application. Croupier frontend uses KeyCloak to authenticate users
 - Hashicorp Vault (https://www.vaultproject.io) is a secret store. Croupier frontend uses Vault to retrieve HPC user's credentials to get access to the target HPC frontend on behalf of the user.
 - Vault Secret Uploader (https://github.com/ari-apc-lab/vault-secret-uploader) offers an REST API interface for CRUD operations of Vault secrets. This API is used by users to store their credentials

@@ -20,6 +20,7 @@ definitions and functions to be used for Building Block implementation.
         from permedcoe import binary
         from permedcoe import mpi
         from permedcoe import task
+        from permedcoe import julia
 
 - Parameter type definitions:
 
@@ -43,6 +44,8 @@ definitions and functions to be used for Building Block implementation.
 
         from permedcoe import set_debug
         from permedcoe import get_environment
+        from permedcoe import invoker
+        from permedcoe.utils.user_arguments import Arguments
 
 - Globals:
 
@@ -184,7 +187,7 @@ Alternatively, ``permedcoe execute`` can be followed by ``application`` (or
 
 .. code-block:: console
 
-    permedcoe execute application -h None)
+    $ permedcoe execute application -h
     usage: permedcoe execute application [-h] [-w {none,pycompss,nextflow,snakemake}]
                                         [-f FLAGS [FLAGS ...]]
                                         name [parameters [parameters ...]]
@@ -227,3 +230,90 @@ or application template:
 
      Once the artifact is created, it describes the minimal expected implementation
      actions to be done in order to complete a Building Block or an application.
+
+
+Automatic Deployment
+~~~~~~~~~~~~~~~~~~~~
+
+The ``permedcoe`` command can also be used to deploy automatically an
+existing Building Block (from the `PerMedCoE GitHub repository <https://github.com/PerMedCoE/BuildingBlocks>`__)
+or an existing Workflow (also from the `PerMedCoE GitHub repository <https://github.com/PerMedCoE>`__):
+
+.. code-block:: console
+
+  $ permedcoe deploy -h
+  usage: permedcoe deploy [-h] {building_block,bb,workflow,wf} ...
+
+  positional arguments:
+    {building_block,bb,workflow,wf}
+      building_block (bb)
+                          A specific building block.
+      workflow (wf)       A specific workflow.
+
+  options:
+    -h, --help            show this help message and exit
+
+
+Building Block Deployment
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``permedcoe deploy`` command can be specified with the ``building_block``
+(or ``bb``) in order to request the automatic deployment of an existing
+Building Block (from the `PerMedCoE GitHub repository <https://github.com/PerMedCoE/BuildingBlocks>`__)
+
+This feature will download automatically the requested Building Block (``name``),
+it will install in your machine, and download as well the required container image.
+
+.. code-block:: console
+
+  $ permedcoe deploy building_block -h
+  usage: permedcoe deploy building_block [-h] name
+
+  positional arguments:
+    name        Building Block to deploy.
+
+  options:
+    -h, --help  show this help message and exit
+
+
+.. IMPORTANT::
+
+    The ``PERMEDCOE_IMAGES`` environment variable must be set in order
+    to use this feature with the path where to store the container image.
+
+After the Building Block deployment, the Building Block will be ready to be used
+from the command line or from a Python application.
+
+
+
+Workflow Deployment
+^^^^^^^^^^^^^^^^^^^
+
+The ``permedcoe deploy`` command can be specified with the ``workflow``
+(or ``wf``) in order to request the automatic deployment of an existing
+Worfklow (from the `PerMedCoE GitHub repository <https://github.com/PerMedCoE>`__)
+
+This feature will download automatically the requested workflow(``name``).
+Thus, it will also download all necessary Building Blocks, install them in
+your machine, and download all necessary container images.
+
+.. code-block:: console
+
+  $ permedcoe deploy workflow -h
+  usage: permedcoe deploy workflow [-h] name
+
+  positional arguments:
+    name        Workflow to deploy.
+
+  options:
+    -h, --help  show this help message and exit
+
+
+.. IMPORTANT::
+
+    The ``PERMEDCOE_IMAGES`` environment variable must be set in order
+    to use this feature with the path where to store the container images.
+
+After the Workflow deployment, a folder containing the workflow source
+will appear in the current folder. It will contain the source code as well
+as some helper script to run the Workflow (even for different workflow managers).

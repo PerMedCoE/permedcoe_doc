@@ -56,8 +56,8 @@ The package contains the following scripts:
     ├── build.sh
     ├── clean.sh
     ├── container
-    │   ├── create_container.sh
-    │   └── sample.def
+    │   ├── create_container.sh
+    │   └── sample.def
     ├── install_sc.sh
     ├── install.sh
     ├── pyproject.toml
@@ -65,14 +65,14 @@ The package contains the following scripts:
     ├── setup.cfg
     ├── setup.py
     ├── src
-    │   └── my_building_block
-    │       ├── assets
-    │       │   └── my_binary.sh
-    │       ├── definition.json
-    │       ├── definitions.py
-    │       ├── __init__.py
-    │       ├── __main__.py
-    │       └── main.py
+    │   └── my_building_block
+    │       ├── assets
+    │       │   └── my_binary.sh
+    │       ├── definition.json
+    │       ├── definitions.py
+    │       ├── __init__.py
+    │       ├── __main__.py
+    │       └── main.py
     └── uninstall.sh
 
 
