@@ -59,7 +59,7 @@ folder in order to execute the workflow.
 .. code-block:: console
 
         $covid-19-workflow> cd Workflow
-        $covid-19-workflow/Workflow> 
+        $covid-19-workflow/Workflow>
 
 The next step is to decide which workflow manager is going to be
 used:
@@ -69,84 +69,19 @@ used:
         $covid-19-workflow/Workflow> ls
         NextFlow  PyCOMPSs  SnakeMake
 
-The covid-19 workflow is available for NextFlow, SnakeMake and PyCOMPSs.
+The covid-19 workflow is available for PyCOMPSs, NextFlow and SnakeMake.
 
 .. IMPORTANT::
 
     The workflow manager **MUST** be installed in the machine in
     order to run the workflow.
 
+    - `PyCOMPSs installation <https://pycompss.readthedocs.io/en/stable/Sections/00_Quickstart.html#install-compss>`_
     - `NextFlow installation <https://www.nextflow.io/docs/latest/getstarted.html#installation>`_
     - `SnakeMake installation <https://snakemake.readthedocs.io/en/stable/getting_started/installation.html>`_
-    - `PyCOMPSs installation <https://pycompss.readthedocs.io/en/stable/Sections/00_Quickstart.html#install-compss>`_
 
 Once decided the workflow manager to be used, specific details about how to run the
 workflow with each of them is provided in the next drop-down sections:
-
-.. dropdown:: NextFlow
-    :animate: fade-in
-
-    If the chosen workflow manager is NextFlow, the next step is to go inside the folder:
-
-    .. code-block:: console
-
-        $covid-19-workflow/Workflow> cd NextFlow
-        $covid-19-workflow/Workflow/NextFlow> ls
-        covid19_pilot.nf  launch.sh
-
-    covid-19_pilot.nf
-        This is the workflow script.
-
-    launch.sh
-        Script that launches the workflow with the testing dataset.
-
-    The way to run the workflow is:
-
-    .. code-block:: console
-
-        $covid-19-workflow/Workflow/NextFlow> ./launch.sh
-
-        [Wait for completion]
-
-
-    And the results will be stored within the current folder within the ``results`` folder.
-
-.. dropdown:: SnakeMake
-    :animate: fade-in
-
-    If the chosen workflow manager is SnakeMake, the next step is to go inside the folder:
-
-    .. code-block:: console
-
-        $covid-19-workflow/Workflow> cd SnakeMake
-        $covid-19-workflow/Workflow/SnakeMake> ls
-        config.yml  launch.sh  run.sh  Snakefile  split.sh
-
-    config.yml
-        Configuration file.
-
-    launch.sh
-        Script that launches the workflow with the testing dataset using SLURM.
-
-    run.sh
-        Script that launches the workflow with the testing dataset.
-
-    Snakefile
-        This is the workflow script.
-
-    split.sh
-        Helper script required by the Snakefile.
-
-    The way to run the workflow is:
-
-    .. code-block:: console
-
-        $covid-19-workflow/Workflow/SnakeMake> ./run.sh
-
-        [Wait for completion]
-
-
-    And the results will be stored within the current folder within the ``results`` folder.
 
 .. dropdown:: PyCOMPSs
     :animate: fade-in
@@ -543,3 +478,68 @@ workflow with each of them is provided in the next drop-down sections:
             └── macrophages_C142.png
 
         11 directories, 100 files
+
+.. dropdown:: NextFlow
+    :animate: fade-in
+
+    If the chosen workflow manager is NextFlow, the next step is to go inside the folder:
+
+    .. code-block:: console
+
+        $covid-19-workflow/Workflow> cd NextFlow
+        $covid-19-workflow/Workflow/NextFlow> ls
+        covid19_pilot.nf  launch.sh
+
+    covid-19_pilot.nf
+        This is the workflow script.
+
+    launch.sh
+        Script that launches the workflow with the testing dataset.
+
+    The way to run the workflow is:
+
+    .. code-block:: console
+
+        $covid-19-workflow/Workflow/NextFlow> ./launch.sh
+
+        [Wait for completion]
+
+
+    And the results will be stored within the current folder within the ``results`` folder.
+
+.. dropdown:: SnakeMake
+    :animate: fade-in
+
+    If the chosen workflow manager is SnakeMake, the next step is to go inside the folder:
+
+    .. code-block:: console
+
+        $covid-19-workflow/Workflow> cd SnakeMake
+        $covid-19-workflow/Workflow/SnakeMake> ls
+        config.yml  launch.sh  run.sh  Snakefile  split.sh
+
+    config.yml
+        Configuration file.
+
+    launch.sh
+        Script that launches the workflow with the testing dataset using SLURM.
+
+    run.sh
+        Script that launches the workflow with the testing dataset.
+
+    Snakefile
+        This is the workflow script.
+
+    split.sh
+        Helper script required by the Snakefile.
+
+    The way to run the workflow is:
+
+    .. code-block:: console
+
+        $covid-19-workflow/Workflow/SnakeMake> ./run.sh
+
+        [Wait for completion]
+
+
+    And the results will be stored within the current folder within the ``results`` folder.
