@@ -221,3 +221,56 @@ COBREXA
 TBD
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/COBREXA>`__
+
+
+CLL Prepare Data
+----------------
+
+This building block involves an in-house script for the primary analysis of the input RNA-Seq data,
+focusing on tasks such as differential expression analysis and batch effect correction.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/cll_prepare_data>`__
+
+
+CLL Tf Activities
+------------------
+
+This building block entails the inference of transcription factor (TF) activities using DecoupleR and
+the quantification of molecular pathways through PROGENY.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/cll_tf_activities>`__
+
+
+CLL Network Inference
+---------------------
+
+This building block involves network inference with CARNIVAL, leveraging Omnipath, as well as DecoupleR and
+PROGENY results as constraints within the linear programming problem.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/cll_network_inference>`__
+
+
+CLL Personalize Boolean Models
+------------------------------
+
+This building block is responsible for building patient-specific boolean models by employing the PROFILE tool and
+input RNA-Seq data.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/cll_personalize_boolean_models>`__
+
+
+CLL Run Boolean Model
+---------------------
+
+This building block evaluates a single patient or group-specific model using MaBoSS.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/cll_run_boolean_model>`__
+
+
+CLL Combine Models
+------------------
+
+This building block combines patient or group-specific results from MaBoSS, assessing whether the obtained profiles
+are appropriately clustered and can serve as predictors of disease subtype.
+
+`Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/cll_combine_models>`__
