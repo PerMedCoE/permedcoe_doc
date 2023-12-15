@@ -89,20 +89,29 @@ For details on individual workflow steps, please check the scripts that use each
 Cancer invasion
 ---------------
 
-Multi-scale models are parametrized by many constants, many of them unknown, and which will impact their behaviour. 
-An important part of the development of such models is to set these constants' values in order to successfully 
-reproduce the observed biological behaviour. To perform this task, many conditions needs to be simulated to test for 
-possible parameter values, a very heavy computational task. 
+Multi-scale models are parametrized by many constants, many of them unknown, and which will impact their behaviour.
+An important part of the development of such models is to set these constants' values in order to successfully
+reproduce the observed biological behaviour. To perform this task, many conditions needs to be simulated to test for
+possible parameter values, a very heavy computational task.
 
-This workflow perform such a task known as a parameter sensitivity analysis, which helps characterize which parameters 
-are important for the observed behaviour, and to which values this parameter should be set. 
+This workflow perform such a task known as a parameter sensitivity analysis, which helps characterize which parameters
+are important for the observed behaviour, and to which values this parameter should be set.
 
 The workflow uses the following building blocks, described in order of execution:
 
 1. PhysiBoSS invasion
-    - Simulate the tumor invasion model (Ruscone et al., Bioinformatics, 2023) and generate outputs. 
+    - Simulate the tumor invasion model (Ruscone et al., Bioinformatics, 2023) and generate outputs.
 2. Invasion analysis
-    - Analyse the simulation outputs and generates plots with the quantification of single and collective migration, according to the parameter values. 
+    - Analyse the simulation outputs and generates plots with the quantification of single and collective migration, according to the parameter values.
 
 For details on individual workflow steps, see the user documentation for each building block.
 `GitHub repository <https://github.com/PerMedCoE/cancer-invasion-workflow>`__
+
+
+Cancer diagnosis
+----------------
+
+TBD
+
+For details on individual workflow steps, see the user documentation for each building block.
+`GitHub repository <https://github.com/PerMedCoE/cancer-diagnosis-workflow>`__
