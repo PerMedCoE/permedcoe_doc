@@ -89,20 +89,45 @@ For details on individual workflow steps, please check the scripts that use each
 Cancer invasion
 ---------------
 
-Multi-scale models are parametrized by many constants, many of them unknown, and which will impact their behaviour. 
-An important part of the development of such models is to set these constants' values in order to successfully 
-reproduce the observed biological behaviour. To perform this task, many conditions needs to be simulated to test for 
-possible parameter values, a very heavy computational task. 
+Multi-scale models are parametrized by many constants, many of them unknown, and which will impact their behaviour.
+An important part of the development of such models is to set these constants' values in order to successfully
+reproduce the observed biological behaviour. To perform this task, many conditions needs to be simulated to test for
+possible parameter values, a very heavy computational task.
 
-This workflow perform such a task known as a parameter sensitivity analysis, which helps characterize which parameters 
-are important for the observed behaviour, and to which values this parameter should be set. 
+This workflow perform such a task known as a parameter sensitivity analysis, which helps characterize which parameters
+are important for the observed behaviour, and to which values this parameter should be set.
 
 The workflow uses the following building blocks, described in order of execution:
 
 1. PhysiBoSS invasion
-    - Simulate the tumor invasion model (Ruscone et al., Bioinformatics, 2023) and generate outputs. 
+    - Simulate the tumor invasion model (Ruscone et al., Bioinformatics, 2023) and generate outputs.
 2. Invasion analysis
-    - Analyse the simulation outputs and generates plots with the quantification of single and collective migration, according to the parameter values. 
+    - Analyse the simulation outputs and generates plots with the quantification of single and collective migration, according to the parameter values.
 
 For details on individual workflow steps, see the user documentation for each building block.
 `GitHub repository <https://github.com/PerMedCoE/cancer-invasion-workflow>`__
+
+
+Cancer diagnosis
+----------------
+
+This use case describes a computational workflow for building a mechanistic model that captures molecular differences between two cancer subtypes, with a focus on Chronic Lymphocytic Leukaemia (CLL). The study uses RNA-Seq data and a specific clinical variable, drawing on the ICGC consortium's data, making it potentially applicable to various cancer types. The analysis aims to understand cellular signalling differences between IGHV groups by employing tools to assess transcription factor activity and provide a signalling network, offering a mechanistic explanation for observed molecular changes. The creation of patient-specific Boolean models allows for studying individual patient trajectories, emphasizing the importance of personalized medicine and tailoring approaches to account for genomic heterogeneity in cancer. Overall, this use case showcases the application of mathematical modelling tools in personalized medicine to understand and adapt approaches based on individual patient characteristics.
+
+
+1. CLL prepare data
+    - This involves an in-house script for the primary analysis of the input RNA-Seq data, focusing on tasks such as differential expression analysis and batch effect correction.
+2. CLL tf activities
+    - This block entails the inference of transcription factor (TF) activities using DecoupleR and the quantification of molecular pathways through PROGENY.
+3. CLL network inference
+    - This step involves network inference with CARNIVAL, leveraging Omnipath, as well as DecoupleR and PROGENY results as constraints within the linear programming problem.
+4. CLL personalise boolean models
+    - This block is responsible for building patient-specific boolean models by employing the PROFILE tool and input RNA-Seq data.
+5. CLL run boolean model
+    - It involves evaluating a single patient or group-specific model using MaBoSS.
+6. CLL combine results
+    - This block combines patient or group-specific results from MaBoSS, assessing whether the obtained profiles are appropriately clustered and can serve as predictors of disease subtype.
+
+
+
+For details on individual workflow steps, see the user documentation for each building block.
+`GitHub repository <https://github.com/PerMedCoE/cancer-diagnosis-workflow>`__
