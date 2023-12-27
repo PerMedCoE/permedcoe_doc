@@ -215,10 +215,10 @@ and the `PhysiBoSS GitHub repository <https://github.com/PhysiBoSS/PhysiBoSS>`__
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/PhysiBoSS_Invasion>`__
 
 
-COBREXA
+COBREXA FVA
 -------
 
-TBD
+This building block runs Flux Variability Analysis (FVA) on a given model. The analysis computes a feasible range of fluxes that may go through each reaction in the model while the model is in near-optimal state.
 
 `Building block GitHub repository <https://github.com/PerMedCoE/BuildingBlocks/tree/main/COBREXA>`__
 
